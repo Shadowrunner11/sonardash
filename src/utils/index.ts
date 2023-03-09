@@ -9,3 +9,7 @@ export function cleanPojo(pojo: Record<string, unknown>) {
     return newPojo
   }, {})
 }
+
+export function wrapData(pojo: Record<string, unknown>) {
+  return { data: pojo }
+}
