@@ -4,4 +4,5 @@ export interface SonarApiParams {
   /**page size */
   ps?: number
   facets?: string
+  componentKeys?: string
 }

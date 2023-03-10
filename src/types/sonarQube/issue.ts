@@ -6,7 +6,22 @@ export interface IIssuesResponse {
   effortTotal: number
   issues: Issue[]
   components: Component[]
-  facets: string[]
+  facets: Facet[]
+}
+
+export interface Facet {
+  property: FacetProperties
+  values: FacetValue[]
+}
+
+export interface FacetValue {
+  val: string
+  count: number
+}
+
+export enum FacetProperties {
+  AUTHORS = 'authors',
+  PROJECTS = 'projects',
 }
 
 export interface Component {

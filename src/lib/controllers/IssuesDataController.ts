@@ -1,6 +1,6 @@
-import { IFetchClient } from 'src/types'
-import { SonarApiParams } from 'src/types/sonarQube'
-import { IIssuesResponse } from 'src/types/sonarQube/issue'
+import { IFetchClient } from '../../types'
+import { SonarApiParams } from '../../types/sonarQube'
+import { FacetProperties, IIssuesResponse } from '../../types/sonarQube/issue'
 
 interface GetPaginationArgs {
   page?: number
@@ -36,5 +36,19 @@ export class IssuesDataController {
     )
 
     return restResultsByPage.flatMap(({ components }) => components).concat(components)
+  }
+
+  async getAuthorsByProject(projectKey: string) {
+    const { facets } = await this.fetchClient.get<IIssuesResponse, SonarApiParams>('/issues/search', {
+      facets: FacetProperties.AUTHORS,
+      componentKeys: projectKey,
+      ps: 1,
+    })
+
+    const authorsFacet = facets.find(({ property }) => property === FacetProperties.AUTHORS)
+
+    if (authorsFacet === undefined) throw new Error('No hay autores')
+
+    return authorsFacet.values
   }
 }
