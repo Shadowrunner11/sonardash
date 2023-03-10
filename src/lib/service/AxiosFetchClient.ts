@@ -1,5 +1,5 @@
 import Axios, { AxiosInstance } from 'axios'
-import { FetchClientOptions, IFetchClient, IHeaders } from 'src/types'
+import { FetchClientOptions, IFetchClient, IHeaders, PojoType } from 'src/types'
 
 export class AxiosFetchClient implements IFetchClient {
   private client: AxiosInstance
@@ -11,11 +11,7 @@ export class AxiosFetchClient implements IFetchClient {
     })
   }
 
-  async get<T = unknown>(
-    url: string,
-    params?: Record<string, string | number>,
-    headers?: IHeaders | undefined
-  ): Promise<T> {
+  async get<T = unknown, K = PojoType>(url: string, params?: K, headers?: IHeaders): Promise<T> {
     const { data } = await this.client.get<T>(url, {
       headers,
       params,
@@ -24,11 +20,7 @@ export class AxiosFetchClient implements IFetchClient {
     return data
   }
 
-  async post<T = unknown>(
-    url: string,
-    body?: Record<string, unknown>,
-    headers?: IHeaders | undefined
-  ): Promise<T> {
+  async post<T = unknown, K = Record<string, unknown>>(url: string, body?: K, headers?: IHeaders): Promise<T> {
     const { data } = await this.client.post<T>(url, body, {
       headers,
     })

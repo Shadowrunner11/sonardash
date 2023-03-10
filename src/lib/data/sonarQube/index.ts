@@ -1,26 +1,27 @@
-import {
-  DataProvider,
-  GetListResult,
-  GetManyResult,
-  GetOneResult,
-} from 'react-admin'
+import { DataProvider, GetListResult, GetManyResult, GetOneResult } from 'react-admin'
 import { NotImplementeError } from '../../errors'
-import { SonarDataSource } from '../../service/SonarDataSource'
-import { SonarAuth } from '../../service/SonarAuth'
-import { TOKEN } from '@config/sonarQube'
+
+import { TOKEN, API_URL } from '@config/sonarQube'
+import { AxiosFetchClient } from 'src/lib/service/AxiosFetchClient'
+import { IssuesDataController } from 'src/lib/controllers/IssuesDataController'
 
 // TODO: usar auth provider
-const client = new SonarDataSource(
-  SonarAuth.localSonarAuth({ tokenOrUser: TOKEN })
-)
 // TODO: controlar errores
 // TODO: diseniar servicio (Facede, adaptaer y/o proxy)
 
+const client = new AxiosFetchClient({
+  baseURL: API_URL,
+  auth: {
+    password: '',
+    username: TOKEN,
+  },
+})
+
+const issueController = new IssuesDataController(client)
+
 export const dataProvider: DataProvider = {
-  async getList(_, params): Promise<GetListResult> {
-    const responseData = await client.getIssues({
-      pagination: params?.pagination.page,
-    })
+  async getList(resource, params): Promise<GetListResult> {
+    const responseData = issueController.getAllProjects()
 
     const {
       issues,
