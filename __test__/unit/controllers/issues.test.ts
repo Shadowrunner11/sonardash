@@ -1,4 +1,4 @@
-import { AxiosFetchClient } from '../../../src/lib/service/AxiosFetchClient'
+import { AxiosFetchClient } from '../../../src/lib/service/FetchClient/AxiosFetchClient'
 import { AxiosSimpleLogger } from '../../../src/lib/service/Logger'
 import { IS_LOGGER_ENABLED } from '../../config'
 import { ProjectDataController } from '../../../src/lib/controllers/ProjectsDataControllers'

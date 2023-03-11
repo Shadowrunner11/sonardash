@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 import { AxiosRequestConfig, AxiosResponse } from 'axios'
-import { ILogger } from './AxiosFetchClient'
-import { PojoType } from 'src/types'
+import { ILogger, PojoType } from '../../types'
 
 export class SimpleLogger<T = unknown> implements ILogger {
   logInfo(info: T): void {

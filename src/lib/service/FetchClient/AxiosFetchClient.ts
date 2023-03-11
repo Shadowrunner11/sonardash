@@ -1,10 +1,5 @@
 import Axios, { AxiosInstance } from 'axios'
-import { FetchClientOptions, IFetchClient, IHeaders, PojoType } from '../../types'
-
-export interface ILogger {
-  logInfo(info: unknown): void
-  logError(error: Error): void
-}
+import { FetchClientOptions, IFetchClient, IHeaders, ILogger, PojoType } from '../../../types'
 
 export class AxiosFetchClient implements IFetchClient {
   private client: AxiosInstance

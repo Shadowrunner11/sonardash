@@ -1,5 +1,5 @@
 import { DefaultClient } from '../../tools/DefaultClient'
-import { AxiosFetchClient } from '../../../src/lib/service/AxiosFetchClient'
+import { AxiosFetchClient } from '../../../src/lib/service/FetchClient/AxiosFetchClient'
 import { IssuesDataController } from '../../../src/lib/controllers/IssuesDataController'
 import { AxiosSimpleLogger } from '../../../src/lib/service/Logger'
 import { IS_LOGGER_ENABLED } from '../../config'

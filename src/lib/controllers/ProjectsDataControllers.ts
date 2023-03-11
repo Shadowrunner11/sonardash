@@ -2,17 +2,22 @@ import { GetPaginationArgs, SonarApiParams } from '../../types/sonarQube'
 import { IFetchClient } from '../../types'
 import { IProjectsResponse } from '../../types/sonarQube/issue'
 
+export interface GetPaginationWithFilterArgs extends GetPaginationArgs {
+  filter?: Record<string, unknown>
+}
+
 export class ProjectDataController {
-  private fetchClient: IFetchClient
+  protected fetchClient: IFetchClient
 
   constructor(fetchClient: IFetchClient) {
     this.fetchClient = fetchClient
   }
 
-  getPaginatedProjects({ page = 1, pageSize }: GetPaginationArgs) {
+  getPaginatedProjects({ page = 1, pageSize, filter }: GetPaginationWithFilterArgs) {
     return this.fetchClient.get<IProjectsResponse, SonarApiParams>('/components/search_projects', {
       p: page,
       ps: pageSize,
+      ...filter,
     })
   }
 
@@ -31,5 +36,12 @@ export class ProjectDataController {
     )
 
     return restResultsByPage.flatMap(({ components }) => components).concat(components)
+  }
+
+  async getAllProjectsLikePagination(): Promise<IProjectsResponse> {
+    const components = await this.getAllProjects()
+
+    // TODO: desacoplar y evitar harcodeo
+    return { components, paging: { pageIndex: 1, pageSize: 1000, total: 1000 } }
   }
 }

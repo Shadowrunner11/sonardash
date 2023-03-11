@@ -1,6 +1,7 @@
 export interface SonarApiParams extends PaginationParams {
   facets?: string
   componentKeys?: string
+  authors?: string
 }
 
 export interface PaginationParams {

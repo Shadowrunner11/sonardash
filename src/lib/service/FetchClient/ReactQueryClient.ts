@@ -1,7 +1,8 @@
 import { fetchUtils } from 'react-admin'
-import { ParsedUrlQueryInput, stringify } from 'querystring'
-import { FetchClientOptions, IFetchClient, IHeaders, PojoType } from 'src/types'
+
+import { FetchClientOptions, IFetchClient, IHeaders, PojoType } from '../../../types'
 import { encode } from 'base-64'
+import { stringifySearchParams as stringify } from '../../../utils'
 
 const { fetchJson } = fetchUtils
 
@@ -16,7 +17,7 @@ export class ReactQueryClient implements IFetchClient {
   }
 
   private getAbsoluteURLWithParams<T = PojoType>(url: string, params?: T) {
-    return `${this.getAbsoluteURL(url)}?${stringify(params as ParsedUrlQueryInput)}`
+    return `${this.getAbsoluteURL(url)}?${stringify(params)}`
   }
 
   private get authHeader() {

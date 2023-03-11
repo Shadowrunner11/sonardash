@@ -1,5 +1,5 @@
 import { FetchClientOptions } from '../../src/types'
-import { AxiosFetchClient } from '../../src/lib/service/AxiosFetchClient'
+import { AxiosFetchClient } from '../../src/lib/service/FetchClient/AxiosFetchClient'
 import { TOKEN, API_URL } from '../config/sonar'
 
 export class DefaultClient extends AxiosFetchClient {

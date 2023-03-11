@@ -30,12 +30,17 @@ export interface FetchClientOptions {
 export type CommonRequestHeadersList = 'Accept' | 'Content-Length' | 'User-Agent' | 'Content-Encoding' | 'Authorization'
 
 export enum HTTP_METHODS {
-  GET = 'GET',
-  POST = 'POST',
-  PUT = 'PUT',
-  PATCH = 'PATCH',
-  DELETE = 'DELETE',
-  OPTIONS = 'OPTIONS',
+  'GET' = 'GET',
+  'POST' = 'POST',
+  'PUT' = 'PUT',
+  'PATCH' = 'PATCH',
+  'DELETE' = 'DELETE',
+  'OPTIONS' = 'OPTIONS',
 }
 
 export type PojoType = Record<string, string | number>
+
+export interface ILogger {
+  logInfo(info: unknown): void
+  logError(error: Error): void
+}
