@@ -1,8 +1,16 @@
-export interface SonarApiParams {
+export interface SonarApiParams extends PaginationParams {
+  facets?: string
+  componentKeys?: string
+}
+
+export interface PaginationParams {
   /**page index */
   p?: number
   /**page size */
   ps?: number
-  facets?: string
-  componentKeys?: string
+}
+
+export interface GetPaginationArgs {
+  page?: number
+  pageSize: number
 }

@@ -3,7 +3,7 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   transform: {
-    '^.+\\.ts?$': 'ts-jest',
+    '^.+\\.ts?$': '@swc/jest',
   },
-  transformIgnorePatterns: [ './node_modules/' ]
+  transformIgnorePatterns: [ './node_modules/' ],
 };
