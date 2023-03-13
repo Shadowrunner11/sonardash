@@ -2,53 +2,42 @@ import { useEffect, useState, useRef } from 'react'
 import { useDataProvider } from 'react-admin'
 import { Component, FacetProperties, FacetValue } from '../../../types/sonarQube/issue'
 import { keyBy } from '../../../utils'
+import { useIncrementState, useLazyGetAllProjects } from '../../../hooks'
 
 export type ParsedComponent = Omit<Component, 'key'> & { id: string }
 
+export interface UseCustomInfniteProps {
+  perPage?: number
+  page?: number
+  resource: FacetProperties
+}
+
 // TODO: desaoplar responsabilidades par abajar complejidad cognitiva
 // TODO: agregar memo
-export function useInfiniteAuthors({ perPage, page } = { perPage: 10, page: 1 }) {
+export function useCustomInfnite({ perPage = 10, page = 1, resource }: UseCustomInfniteProps) {
   const dataProvider = useDataProvider()
+  const getAllProjects = useLazyGetAllProjects()
 
   const [ isLoading, setIsLoading ] = useState(true)
-  const [ currentPage, setCurrentPage ] = useState(page)
+  const [ currentPage, setCurrentPage ] = useIncrementState(page)
   const [ authors, setAuthors ] = useState<FacetValue[]>([])
 
   const cacheAuthors = useRef<Record<string, FacetValue>>({})
   const projects = useRef<ParsedComponent[]>([])
   const projectStepper = useRef(0)
 
-  async function softSideEffet() {
-    const { total } = await dataProvider.getList(FacetProperties.PROJECTS, {
-      filter: undefined,
-      sort: { field: '', order: '' },
-      pagination: {
-        page: 1,
-        perPage: 10,
-      },
-    })
-
-    const { data: allProjects } = await dataProvider.getList(FacetProperties.PROJECTS, {
-      filter: undefined,
-      sort: { field: '', order: '' },
-      pagination: {
-        page: 1,
-        perPage: total ?? 0,
-      },
-    })
-
-    projects.current.push(...allProjects)
-  }
-
   async function fetchNext() {
     const limit = currentPage * perPage
 
     setIsLoading(true)
 
-    if (!projects.current.length) await softSideEffet()
+    if (!projects.current.length) {
+      const projectsData = await getAllProjects()
+      projects.current.push(...projectsData)
+    }
 
     while (Object.values(cacheAuthors.current).length <= limit) {
-      const { data } = await dataProvider.getList(FacetProperties.AUTHORS, {
+      const { data } = await dataProvider.getList(resource, {
         filter: {
           project: projects.current[projectStepper.current].id,
         },
@@ -61,16 +50,17 @@ export function useInfiniteAuthors({ perPage, page } = { perPage: 10, page: 1 })
 
       const prevCache = cacheAuthors.current
 
-      cacheAuthors.current = { ...keyBy(data, 'val'), ...prevCache }
+      cacheAuthors.current = { ...prevCache, ...keyBy(data, 'val') }
       projectStepper.current++
     }
 
     setAuthors([ ...Object.values(cacheAuthors.current) ])
-    setCurrentPage((prev) => prev + 1)
+    setCurrentPage()
     setIsLoading(false)
   }
 
   useEffect(() => {
+    // eslint-disable-next-line no-console
     fetchNext().catch(console.error)
   }, [])
 

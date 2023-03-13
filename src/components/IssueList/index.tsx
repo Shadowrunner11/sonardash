@@ -6,7 +6,7 @@ const propertiesProject = [
   { label: 'proyecto', source: 'project' },
 ]
 
-export function IssuesList() {
+export default function IssuesList() {
   return (
     <List aside={<Filter />}>
       <Datagrid>

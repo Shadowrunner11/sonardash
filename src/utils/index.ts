@@ -51,25 +51,35 @@ export function getFirstLanguageFromFile(filePath: string) {
   }
 }
 
-// TODO: change this to global window declaration
-export function exposeToGlobal(reference: object, name?: string) {
-  const propertyName: any = name ?? reference?.constructor?.name
-  window[propertyName] = reference as any
+declare global {
+  interface Window {
+    [key: string | number]: unknown
+  }
 }
 
-// TODO: variable naming is bad and abstracion too
-export function getTimeAndDate(_date = new Date()) {
-  const time = _date.toLocaleString('es-ES', {
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric',
-  })
+export function exposeToGlobal(reference: object, name?: string) {
+  const propertyName = name ?? reference?.constructor?.name
+  window[propertyName] = reference
+}
 
-  const date = _date.toLocaleDateString('es-ES', {
-    month: 'short',
-    day: '2-digit',
-    year: 'numeric',
-  })
+export { getHourMinSec, getShortDate, getTimeAndDate } from './date'
 
-  return { time, date }
+export async function batchProccess<T = unknown, K = unknown>(
+  data: T[],
+  cb: (item: T, index: number, batchIteration: number, array: T[]) => Promise<K>,
+  limit = 1000
+) {
+  const temp = [ ...data ]
+  const results: K[] = []
+  let batchIteration = 0
+
+  while (temp.length !== 0) {
+    const batch = data.splice(0, limit)
+    const partitalResults = await Promise.all(batch.map((e, i, a) => cb(e, i, batchIteration, a)))
+
+    results.push(...partitalResults)
+    batchIteration++
+  }
+
+  return results
 }

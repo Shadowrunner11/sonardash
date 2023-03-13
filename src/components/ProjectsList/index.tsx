@@ -5,7 +5,7 @@ const propertiesProject = [
   { label: 'nombre', source: 'name' },
 ]
 
-export function ProjectList() {
+export default function ProjectList() {
   return (
     <List>
       <Datagrid>

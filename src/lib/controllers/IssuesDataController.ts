@@ -1,3 +1,4 @@
+import { batchProccess } from '../../utils'
 import { elasticSearchLimit } from '../../config/globals'
 import { IFetchClient } from '../../types'
 import { PaginationParams, SonarApiParams } from '../../types/sonarQube'
@@ -51,10 +52,16 @@ export class IssuesDataController {
 
     const listArray = Array.from(Array(maxIterations))
 
-    const restResultsByPage = await Promise.all(
-      listArray.map((_, index) => this.getPaginatedIssues({ page: index + 2, pageSize }))
+    const result = await batchProccess(
+      listArray,
+      (_, index, batchIteration, array) => {
+        const page = index + array.length * batchIteration + (!batchIteration ? 0 : 2)
+
+        return this.getPaginatedIssues({ page })
+      },
+      10
     )
 
-    return restResultsByPage.flatMap(({ data }) => data).concat(data)
+    return result.flatMap(({ data }) => data).concat(data)
   }
 }
