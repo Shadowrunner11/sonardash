@@ -23,7 +23,7 @@ describe('Issues controller', () => {
     expect(Array.isArray(result)).toBe(true)
   })
 
-  test.only('gettin authors', async () => {
+  test.only('getting authors', async () => {
     const issueController = new IssuesDataController(client)
 
     const result = await issueController.getAuthorsByProject(
@@ -32,5 +32,11 @@ describe('Issues controller', () => {
 
     console.log('🚀 ~ file: issues.test.ts:18 ~ test ~ result:', result)
     expect(Array.isArray(result)).toBe(true)
+  })
+
+  test('getting rules', async () => {
+    const issueController = new IssuesDataController(client)
+
+    const result = await issueController.getRulesByProject
   })
 })
