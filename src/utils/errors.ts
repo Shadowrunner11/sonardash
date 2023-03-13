@@ -1,4 +1,4 @@
-import { NotImplementeError } from 'src/lib/errors'
+import { NotImplementeError } from '../lib/errors'
 
 export function throwNotImplementedMethod() {
   throw new NotImplementeError()
