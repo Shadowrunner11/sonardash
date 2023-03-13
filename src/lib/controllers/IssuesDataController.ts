@@ -51,4 +51,18 @@ export class IssuesDataController {
 
     return authorsFacet.values
   }
+
+  async getRulesByProject(projectKey: string) {
+    const { facets } = await this.fetchClient.get<IIssuesResponse, SonarApiParams>('issues/search', {
+      facets: FacetProperties.RULES,
+      componentKeys: projectKey,
+      ps: 1,
+    })
+
+    const rulesFacet = facets.find(({ property }) => property === FacetProperties.RULES)
+
+    if (rulesFacet === undefined) throw new Error('No hay reglas')
+
+    return rulesFacet.values
+  }
 }
