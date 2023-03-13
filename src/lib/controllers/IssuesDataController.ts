@@ -1,12 +1,12 @@
-import { elasticSearchLimit } from '../../config/sonarQube'
+import { elasticSearchLimit } from '../../config/globals'
 import { IFetchClient } from '../../types'
 import { PaginationParams, SonarApiParams } from '../../types/sonarQube'
 import { IIssuesResponse } from '../../types/sonarQube/issue'
-import { ProjectDataController } from './ProjectsDataControllers'
 
-export class IssuesDataController extends ProjectDataController {
+export class IssuesDataController {
+  private fetchClient: IFetchClient
   constructor(fetchClient: IFetchClient) {
-    super(fetchClient)
+    this.fetchClient = fetchClient
   }
 
   protected fetchIssuesSearch(params: SonarApiParams) {
