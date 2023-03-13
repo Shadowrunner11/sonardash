@@ -1,6 +1,6 @@
 import { encode } from 'base-64'
-import { FetchClientOptions, PojoType } from 'src/types'
-import { stringifySearchParams } from 'src/utils'
+import { FetchClientOptions, PojoType } from '../../../types'
+import { stringifySearchParams } from '../../..//utils'
 
 export class FetchClientWithHelpers {
   protected options: FetchClientOptions

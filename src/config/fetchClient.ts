@@ -1,4 +1,4 @@
-import { FetchClientOptions } from 'src/types'
+import { FetchClientOptions } from '../types'
 import { FetchClientStrategy } from '../types/fetchClient'
 import { API_URL, initialAuthOptions } from './sonarQube'
 

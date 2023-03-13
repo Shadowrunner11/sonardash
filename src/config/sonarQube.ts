@@ -1,4 +1,4 @@
-import { AuthParams } from 'src/types'
+import { AuthParams } from '../types'
 
 export const TOKEN: string = import.meta.env.VITE_SONAR_TOKEN
 
