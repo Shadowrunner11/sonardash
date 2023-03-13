@@ -2,7 +2,7 @@ import { batchProccess } from '../../utils'
 import { elasticSearchLimit } from '../../config/globals'
 import { IFetchClient } from '../../types'
 import { PaginationParams, SonarApiParams } from '../../types/sonarQube'
-import { IIssuesResponse } from '../../types/sonarQube/issue'
+import { FacetProperties, IIssuesResponse } from '../../types/sonarQube/issue'
 
 export class IssuesDataController {
   private fetchClient: IFetchClient
@@ -63,5 +63,19 @@ export class IssuesDataController {
     )
 
     return result.flatMap(({ data }) => data).concat(data)
+  }
+
+  async getRulesByProject(projectKey: string) {
+    const { facets } = await this.fetchClient.get<IIssuesResponse, SonarApiParams>('issues/search', {
+      facets: FacetProperties.RULES,
+      componentKeys: projectKey,
+      ps: 1,
+    })
+
+    const rulesFacet = facets.find(({ property }) => property === FacetProperties.RULES)
+
+    if (rulesFacet === undefined) throw new Error('No hay reglas')
+
+    return rulesFacet.values
   }
 }

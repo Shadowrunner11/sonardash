@@ -3,8 +3,17 @@ import { Filter } from './Filter'
 import SideCard from '../../layout/SideCard'
 
 const propertiesProject = [
-  { label: 'key', source: 'id' },
-  { label: 'proyecto', source: 'project' },
+  { label: 'Key', source: 'id' },
+  { label: 'Proyecto', source: 'project' },
+  { label: 'Autores', source: 'author' },
+  { label: 'Observación', source: 'type' },
+  { label: 'Severidad', source: 'severity' },
+  { label: 'Regla', source: 'rule' },
+  { label: 'Archivo', source: 'component' },
+  { label: 'Línea de código', source: 'line' },
+  { label: 'Día', source: 'creationDate' },
+  { label: 'Hora', source: '' },
+  { label: 'Lenguaje', source: 'language' },
 ]
 
 const Filters = () => <SideCard content={<Filter />} />
