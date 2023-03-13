@@ -1,5 +1,5 @@
 import Axios, { AxiosInstance } from 'axios'
-import { FetchClientOptions, IFetchClient, IHeaders, PojoType } from 'src/types'
+import { FetchClientOptions, IFetchClient, IHeaders, ILogger, PojoType } from '../../../types'
 
 export class AxiosFetchClient implements IFetchClient {
   private client: AxiosInstance
@@ -26,5 +26,26 @@ export class AxiosFetchClient implements IFetchClient {
     })
 
     return data
+  }
+
+  useLogger(logger: ILogger) {
+    function logError(error: Error) {
+      logger.logError(error)
+
+      Promise.reject(error)
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    function logInfo(requestOrResponse: any) {
+      logger.logInfo(requestOrResponse)
+
+      return requestOrResponse
+    }
+
+    const interceptors = this.client.interceptors
+
+    interceptors.request.use(logInfo, logError)
+
+    interceptors.response.use(logInfo, logError)
   }
 }

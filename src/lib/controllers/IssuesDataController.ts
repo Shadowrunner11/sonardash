@@ -1,55 +1,61 @@
+import { elasticSearchLimit } from '../../config/sonarQube'
 import { IFetchClient } from '../../types'
-import { SonarApiParams } from '../../types/sonarQube'
-import { FacetProperties, IIssuesResponse } from '../../types/sonarQube/issue'
+import { PaginationParams, SonarApiParams } from '../../types/sonarQube'
+import { IIssuesResponse } from '../../types/sonarQube/issue'
+import { ProjectDataController } from './ProjectsDataControllers'
 
-interface GetPaginationArgs {
-  page?: number
-  pageSize: number
-}
-
-export class IssuesDataController {
-  fetchClient: IFetchClient
-
+export class IssuesDataController extends ProjectDataController {
   constructor(fetchClient: IFetchClient) {
-    this.fetchClient = fetchClient
+    super(fetchClient)
   }
 
-  getPaginatedProjects({ page = 1, pageSize }: GetPaginationArgs) {
-    return this.fetchClient.get<IIssuesResponse, SonarApiParams>('/components/search_projects', {
+  protected fetchIssuesSearch(params: SonarApiParams) {
+    return this.fetchClient.get<IIssuesResponse, SonarApiParams>('/issues/search', params)
+  }
+
+  async getIssuesByProject(projectKey: string, params: PaginationParams) {
+    const { issues, paging, total } = await this.fetchIssuesSearch({
+      componentKeys: projectKey,
+      ...params,
+    })
+
+    return { data: issues, pageInfo: paging, total }
+  }
+
+  async getPaginatedIssues({ page = 1, pageSize = 500, filters = { resolved: false } }) {
+    const { issues, paging, total } = await this.fetchIssuesSearch({
       p: page,
       ps: pageSize,
+      ...filters,
     })
+
+    return { data: issues, pageInfo: paging, total }
   }
 
-  async getAllProjects(pageSize = 500) {
-    const firstIterationResult = await this.getPaginatedProjects({ pageSize })
+  async getAllIssuesLikePagination() {
+    const data = await this.getAllIssues()
+
+    // TODO: desacoplar y evitar harcodeo
+    return { data, pageInfo: { pageIndex: 1, pageSize: 1000, total: 1000 } }
+  }
+
+  async getAllIssues(pageSize = 500) {
+    const firstIterationResult = await this.getPaginatedIssues({ pageSize })
     const {
-      paging: { total },
-      components,
+      pageInfo: { total },
+      data,
     } = firstIterationResult
-    const maxIterations = Math.round(total / pageSize) - 1
+
+    const limitedTotal = Math.min(elasticSearchLimit, total)
+    const maxIterations = Math.round(limitedTotal / pageSize) - 1
 
     const listArray = Array.from(Array(maxIterations))
 
     const restResultsByPage = await Promise.all(
-      listArray.map((_, index) => this.getPaginatedProjects({ page: index + 2, pageSize }))
+      listArray.map((_, index) => this.getPaginatedIssues({ page: index + 2, pageSize }))
     )
 
-    return restResultsByPage.flatMap(({ components }) => components).concat(components)
-  }
-
-  async getAuthorsByProject(projectKey: string) {
-    const { facets } = await this.fetchClient.get<IIssuesResponse, SonarApiParams>('/issues/search', {
-      facets: FacetProperties.AUTHORS,
-      componentKeys: projectKey,
-      ps: 1,
-    })
-
-    const authorsFacet = facets.find(({ property }) => property === FacetProperties.AUTHORS)
-
-    if (authorsFacet === undefined) throw new Error('No hay autores')
-
-    return authorsFacet.values
+    return restResultsByPage.flatMap(({ data }) => data).concat(data)
   }
 
   async getRulesByProject(projectKey: string) {
