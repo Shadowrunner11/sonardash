@@ -10,8 +10,8 @@ const propertiesProject = [
   { label: 'Regla', source: 'rule' },
   { label: 'Archivo', source: 'component' },
   { label: 'Línea de código', source: 'line' },
-  { label: 'Día', source: 'creationDate' },
-  { label: 'Hora', source: '' },
+  { label: 'Día', source: 'date' },
+  { label: 'Hora', source: 'time' },
   { label: 'Lenguaje', source: 'language' },
 ]
 
