@@ -14,7 +14,7 @@ import {
 
 import { NotImplementeError } from '../../../lib/errors'
 import { IssuesDataController } from '../../../lib/controllers/IssuesDataController'
-import { getFirstLanguageFromFile } from '../../../utils'
+import { exposeToGlobal, getFirstLanguageFromFile } from '../../../utils'
 
 export class IssuesDataProvider implements DataProvider {
   private issuesController: IssuesDataController
@@ -40,12 +40,15 @@ export class IssuesDataProvider implements DataProvider {
   async getList(resource: string, params: GetListParams): Promise<GetListResult> {
     const { data: issues, pageInfo } = await this.getListByParams(params)
 
-    const data = issues.map(({ key, component, ...rest }) => ({
+    const data = issues.map(({ key, component, creationDate, ...rest }) => ({
       id: key,
       ...rest,
       component,
       language: getFirstLanguageFromFile(component),
+      creationDate: new Date(creationDate).toLocaleString('es-ES'),
     }))
+
+    exposeToGlobal(data[0].language, 'dataIssue')
 
     const { total, pageIndex, pageSize } = pageInfo
 

@@ -48,3 +48,9 @@ export function getFirstLanguageFromFile(filePath: string) {
     return 'File type not identified'
   }
 }
+
+// TODO: change this to global window declaration
+export function exposeToGlobal(reference: object, name?: string) {
+  const propertyName: any = name ?? reference?.constructor?.name
+  window[propertyName] = reference as any
+}
