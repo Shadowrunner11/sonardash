@@ -1,0 +1,3 @@
+VITE_API_URL_SONAR=https://sonarfakeapi.com/api
+IS_LOGGER_ENABLED=1
+VITE_SONAR_TOKEN=

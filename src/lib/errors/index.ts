@@ -1,5 +1,5 @@
 export class NotImplementeError extends Error {
-  constructor() {
-    super('Method not impemented')
+  constructor(extraMessage?: string) {
+    super(`Method not impemented ${extraMessage ?? ''}`)
   }
 }

@@ -9,6 +9,10 @@ export interface IIssuesResponse {
   facets: Facet[]
 }
 
+export interface IProjectsResponse {
+  paging: Paging
+  components: Component[]
+}
 export interface Facet {
   property: FacetProperties
   values: FacetValue[]
@@ -20,17 +24,20 @@ export interface FacetValue {
 }
 
 export enum FacetProperties {
-  AUTHORS = 'authors',
-  PROJECTS = 'projects',
+  'AUTHORS' = 'authors',
+  'PROJECTS' = 'projects',
 }
 
 export interface Component {
   key: string
-  enabled: boolean
+  enabled?: boolean
   qualifier: Qualifier
   name: string
-  longName: string
+  longName?: string
   path?: string
+  isFavorite?: boolean
+  tags: [string?]
+  needIssueSync?: boolean
 }
 
 export enum Qualifier {

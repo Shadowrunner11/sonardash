@@ -1,11 +1,31 @@
-import { Admin, ListGuesser, Resource } from 'react-admin'
-import { dataProvider } from './lib/data/sonarQube'
+import { Resource } from 'react-admin'
+import AdminSonarQube from './layout/AdminSonarQube'
+import { lazy } from 'react'
+import { DefaultLazy } from './components/DefaultLazy'
+
+const LazyIssueList = lazy(() => import('./components/IssueList'))
+const LazyProjectList = lazy(() => import('./components/ProjectsList'))
 
 function App() {
   return (
-    <Admin dataProvider={dataProvider}>
-      <Resource name='issues' list={ListGuesser} />
-    </Admin>
+    <AdminSonarQube>
+      <Resource
+        name='issues'
+        list={
+          <DefaultLazy>
+            <LazyIssueList />
+          </DefaultLazy>
+        }
+      />
+      <Resource
+        name='projects'
+        list={
+          <DefaultLazy>
+            <LazyProjectList />
+          </DefaultLazy>
+        }
+      />
+    </AdminSonarQube>
   )
 }
 
