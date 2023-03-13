@@ -31,6 +31,7 @@
     "@types/node": "^18.14.5",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
+    "@types/react-query": "^1.2.9",
     "@typescript-eslint/eslint-plugin": "^5.54.0",
     "@typescript-eslint/parser": "^5.54.0",
     "@vitejs/plugin-react-swc": "^3.0.0",
