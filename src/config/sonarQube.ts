@@ -14,5 +14,3 @@ export const initialAuthOptions: { auth?: Required<AuthParams> } = Object.freeze
     }
     : {}
 )
-
-export const elasticSearchLimit = 10000
