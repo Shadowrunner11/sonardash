@@ -14,7 +14,7 @@ import {
 
 import { NotImplementeError } from '../../../lib/errors'
 import { IssuesDataController } from '../../../lib/controllers/IssuesDataController'
-import { exposeToGlobal, getFirstLanguageFromFile, getTimeAndDate } from '../../../utils'
+import { getFirstLanguageFromFile, getTimeAndDate } from '../../../utils'
 
 export class IssuesDataProvider implements DataProvider {
   private issuesController: IssuesDataController
