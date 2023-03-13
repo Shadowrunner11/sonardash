@@ -1,4 +1,5 @@
-import { PojoType } from 'src/types'
+import { PojoType } from '../types'
+import langMap from 'lang-map'
 
 export function cleanPojo(pojo: Record<string, unknown>) {
   return Object.keys(pojo).reduce((newPojo: Record<string, unknown>, key) => {
@@ -32,4 +33,18 @@ export function keyBy<T = any>(arr: Record<string, T>[], key: string) {
 
     return prevPojo
   }, {})
+}
+
+export function getFileExtension(filePath: string) {
+  return filePath?.split('.')?.pop() || filePath
+}
+
+export function getFirstLanguageFromFile(filePath: string) {
+  try {
+    const [ firstLanguage ] = langMap.map(getFileExtension(filePath)) ?? []
+
+    return firstLanguage
+  } catch (error) {
+    return 'File type not identified'
+  }
 }

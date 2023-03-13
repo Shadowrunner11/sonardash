@@ -1,30 +1,13 @@
 import { fetchUtils } from 'react-admin'
 
 import { FetchClientOptions, IFetchClient, IHeaders, PojoType } from '../../../types'
-import { encode } from 'base-64'
-import { stringifySearchParams as stringify } from '../../../utils'
+import { FetchClientWithHelpers } from './FetchClientWithHelpers'
 
 const { fetchJson } = fetchUtils
 
-export class ReactQueryClient implements IFetchClient {
-  private options: FetchClientOptions
+export class ReactQueryClient extends FetchClientWithHelpers implements IFetchClient {
   constructor(options: FetchClientOptions) {
-    this.options = options
-  }
-
-  private getAbsoluteURL(url: string) {
-    return this.options.baseURL + url
-  }
-
-  private getAbsoluteURLWithParams<T = PojoType>(url: string, params?: T) {
-    return `${this.getAbsoluteURL(url)}?${stringify(params)}`
-  }
-
-  private get authHeader() {
-    const { password = '', username } = this.options.auth ?? {}
-    const authInfo = encode(`${username}:${password}`)
-
-    return `Basic ${authInfo}`
+    super(options)
   }
 
   async get<T = unknown, K = PojoType>(url: string, params?: K, headers?: IHeaders): Promise<T> {

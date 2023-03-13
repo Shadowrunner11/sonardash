@@ -1,28 +1,9 @@
-import { stringifySearchParams } from '../../../utils'
 import { FetchClientOptions, HTTP_METHODS, IFetchClient, IHeaders, PojoType } from '../../../types'
-import { encode } from 'base-64'
+import { FetchClientWithHelpers } from './FetchClientWithHelpers'
 
-export class NativeFetchClient implements IFetchClient {
-  private options: FetchClientOptions
+export class NativeFetchClient extends FetchClientWithHelpers implements IFetchClient {
   constructor(options: FetchClientOptions) {
-    this.options = options
-  }
-
-  private getAbsoluteURL(url: string) {
-    return this.options.baseURL + url
-  }
-
-  private getAbsoluteURLWithParams<T = PojoType>(url: string, params?: T) {
-    const strigifiedParams = stringifySearchParams(params)
-
-    return `${this.getAbsoluteURL(url)}?${strigifiedParams}`
-  }
-
-  private get authHeader() {
-    const { password = '', username } = this.options.auth ?? {}
-    const authInfo = encode(`${username}:${password}`)
-
-    return `Basic ${authInfo}`
+    super(options)
   }
 
   async get<T = unknown, K = PojoType>(url: string, params?: K, headers?: IHeaders): Promise<T> {
