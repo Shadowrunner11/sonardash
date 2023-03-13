@@ -1,7 +1,7 @@
 import { elasticSearchLimit } from '../../config/globals'
 import { IFetchClient } from '../../types'
 import { PaginationParams, SonarApiParams } from '../../types/sonarQube'
-import { IIssuesResponse } from '../../types/sonarQube/issue'
+import { FacetProperties, IIssuesResponse } from '../../types/sonarQube/issue'
 
 export class IssuesDataController {
   private fetchClient: IFetchClient

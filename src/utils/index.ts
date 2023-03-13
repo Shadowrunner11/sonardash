@@ -42,6 +42,7 @@ export function getFileExtension(filePath: string) {
 export function getFirstLanguageFromFile(filePath: string) {
   try {
     const [ firstLanguage ] = langMap.map(getFileExtension(filePath)) ?? []
+    console.log(filePath, firstLanguage)
 
     return firstLanguage
   } catch (error) {

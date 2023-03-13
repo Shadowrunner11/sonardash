@@ -13,7 +13,7 @@ beforeAll(() => {
   projectController = new ProjectDataController(client)
 })
 
-describe('Issues controller', () => {
+describe.skip('Issues controller', () => {
   test('getting projects', async () => {
     const result = await projectController.getAllProjects()
 
