@@ -14,7 +14,7 @@ import {
 
 import { NotImplementeError } from '../../../lib/errors'
 import { IssuesDataController } from '../../../lib/controllers/IssuesDataController'
-import { exposeToGlobal, getFirstLanguageFromFile } from '../../../utils'
+import { exposeToGlobal, getFirstLanguageFromFile, getTimeAndDate } from '../../../utils'
 
 export class IssuesDataProvider implements DataProvider {
   private issuesController: IssuesDataController
@@ -40,15 +40,19 @@ export class IssuesDataProvider implements DataProvider {
   async getList(resource: string, params: GetListParams): Promise<GetListResult> {
     const { data: issues, pageInfo } = await this.getListByParams(params)
 
-    const data = issues.map(({ key, component, creationDate, ...rest }) => ({
-      id: key,
-      ...rest,
-      component,
-      language: getFirstLanguageFromFile(component),
-      creationDate: new Date(creationDate).toLocaleString('es-ES'),
-    }))
-
-    exposeToGlobal(data[0].language, 'dataIssue')
+    // TODO: abstraction its not good
+    const data = issues.map(({ key, component, creationDate, ...rest }) => {
+      const { date, time } = getTimeAndDate(new Date(creationDate))
+      return {
+        id: key,
+        ...rest,
+        component,
+        language: getFirstLanguageFromFile(component),
+        time,
+        date,
+        creationDate: new Date(creationDate).toLocaleString('es-ES'),
+      }
+    })
 
     const { total, pageIndex, pageSize } = pageInfo
 

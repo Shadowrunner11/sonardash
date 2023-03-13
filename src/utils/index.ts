@@ -41,10 +41,12 @@ export function getFileExtension(filePath: string) {
 
 export function getFirstLanguageFromFile(filePath: string) {
   try {
-    const [ firstLanguage ] = langMap.map(getFileExtension(filePath)) ?? []
+    const [ firstLanguage ] = langMap.languages(getFileExtension(filePath)) ?? []
 
     return firstLanguage
   } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(error)
     return 'File type not identified'
   }
 }
@@ -53,4 +55,21 @@ export function getFirstLanguageFromFile(filePath: string) {
 export function exposeToGlobal(reference: object, name?: string) {
   const propertyName: any = name ?? reference?.constructor?.name
   window[propertyName] = reference as any
+}
+
+// TODO: variable naming is bad and abstracion too
+export function getTimeAndDate(_date = new Date()) {
+  const time = _date.toLocaleString('es-ES', {
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+  })
+
+  const date = _date.toLocaleDateString('es-ES', {
+    month: 'short',
+    day: '2-digit',
+    year: 'numeric',
+  })
+
+  return { time, date }
 }
