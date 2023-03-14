@@ -27,6 +27,9 @@ export enum FacetProperties {
   'AUTHORS' = 'authors',
   'PROJECTS' = 'projects',
   'RULES' = 'rules',
+  'TYPES' = 'types',
+  'SEVERITIES' = 'severities',
+  'FILES' = 'files',
 }
 
 export interface Component {
