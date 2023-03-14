@@ -11,6 +11,7 @@ export interface AuthParams {
 export type IHeaders = Partial<{ [key in CommonRequestHeadersList]: string }> & Record<string, string>
 
 export interface IFetchClient {
+  setAuthorization(authParams: AuthParams): void
   get<T = unknown, K = PojoType>(url: string, params?: K, headers?: IHeaders): Promise<T>
   post<T = unknown, K = Record<string, unknown>>(url: string, body: K, headers?: IHeaders): Promise<T>
 }

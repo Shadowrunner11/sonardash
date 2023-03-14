@@ -12,8 +12,8 @@ export class ReactQueryClient extends FetchClientWithHelpers implements IFetchCl
 
   async get<T = unknown, K = PojoType>(url: string, params?: K, headers?: IHeaders): Promise<T> {
     const _headers = new Headers({
-      ...headers,
       Authorization: this.authHeader,
+      ...headers,
     })
     const { json }: { json: T } = await fetchJson(this.getAbsoluteURLWithParams(url, params), {
       headers: _headers,
