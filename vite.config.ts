@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import { resolve } from 'path'
 import { dependencies } from './package.json'
+import { dependencies as raDependencies } from './node_modules/react-admin/package.json'
 
 const vendor = [ 'react', 'react-router-dom', 'react-dom' ]
 
@@ -12,6 +13,11 @@ function renderChunks(deps: Record<string, string>) {
     chunks[key] = [ key ]
   })
   return chunks
+}
+
+const allDeps = {
+  ...dependencies,
+  ...raDependencies,
 }
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -27,7 +33,7 @@ export default defineConfig({
       output: {
         manualChunks: {
           vendor,
-          ...renderChunks(dependencies),
+          ...renderChunks(allDeps),
         },
       },
     },
