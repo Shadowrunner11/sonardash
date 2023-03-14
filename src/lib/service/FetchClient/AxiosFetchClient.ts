@@ -19,9 +19,7 @@ export class AxiosFetchClient extends FetchClientWithHelpers implements IFetchCl
         baseURL,
         headers,
         auth,
-      }),
-      // eslint-disable-next-line no-console
-      { debug: console.log, storage, interpretHeader: false }
+      })
     )
   }
 
