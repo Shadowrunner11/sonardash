@@ -1,6 +1,6 @@
 import Axios, { AxiosInstance } from 'axios'
 import { setupCache } from 'axios-cache-interceptor'
-import { FetchClientOptions, IFetchClient, IHeaders, ILogger, PojoType } from '../../../types'
+import { AuthParams, FetchClientOptions, IFetchClient, IHeaders, ILogger, PojoType } from '../../../types'
 import { FetchClientWithHelpers } from './FetchClientWithHelpers'
 
 export class AxiosFetchClient extends FetchClientWithHelpers implements IFetchClient {
@@ -17,6 +17,10 @@ export class AxiosFetchClient extends FetchClientWithHelpers implements IFetchCl
         auth,
       })
     )
+  }
+
+  override setAuthorization(authParams: Required<AuthParams>): void {
+    this.client.defaults.auth = authParams
   }
 
   async get<T = unknown, K = PojoType>(url: string, params?: K, headers?: IHeaders): Promise<T> {
