@@ -1,33 +1,31 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { Resource } from 'react-admin'
+import AdminSonarQube from './layout/AdminSonarQube'
+import { lazy } from 'react'
+import { DefaultLazy } from './components/DefaultLazy'
+
+const LazyIssueList = lazy(() => import('./components/IssueList'))
+const LazyProjectList = lazy(() => import('./components/ProjectsList'))
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
+    <AdminSonarQube>
+      <Resource
+        name='issues'
+        list={
+          <DefaultLazy>
+            <LazyIssueList />
+          </DefaultLazy>
+        }
+      />
+      <Resource
+        name='projects'
+        list={
+          <DefaultLazy>
+            <LazyProjectList />
+          </DefaultLazy>
+        }
+      />
+    </AdminSonarQube>
   )
 }
 
