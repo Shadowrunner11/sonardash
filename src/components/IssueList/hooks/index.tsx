@@ -14,7 +14,7 @@ export interface UseCustomInfniteProps {
 
 // TODO: desaoplar responsabilidades par abajar complejidad cognitiva
 // TODO: agregar memo
-export function useCustomInfnite({ perPage = 10, page = 1, resource }: UseCustomInfniteProps) {
+export function useCustomInfnite({ perPage = 10, page = 1, resource: facetResource }: UseCustomInfniteProps) {
   const dataProvider = useDataProvider()
   const getAllProjects = useLazyGetAllProjects()
 
@@ -37,7 +37,7 @@ export function useCustomInfnite({ perPage = 10, page = 1, resource }: UseCustom
     }
 
     while (Object.values(cacheAuthors.current).length <= limit) {
-      const { data } = await dataProvider.getList(resource, {
+      const { data } = await dataProvider.getList(facetResource, {
         filter: {
           project: projects.current[projectStepper.current].id,
         },
