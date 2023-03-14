@@ -5,6 +5,10 @@ import { AxiosSimpleLogger } from '../../../src/lib/service/Logger'
 import { IS_LOGGER_ENABLED } from '../../config'
 import { ProjectDataController } from '../../../src/lib/controllers/ProjectsDataControllers'
 import { AuthorsDataController } from '../../../src/lib/controllers/AuthorsDataController'
+import { RulesDataController } from '../../../src/lib/controllers/RulesDataController'
+import { TypesDataController } from '../../../src/lib/controllers/TypesController'
+import { SeveritiesDataController } from '../../../src/lib/controllers/SeveritiesController'
+import { FilesDataController } from '../../../src/lib/controllers/FilesController'
 
 const client = DefaultClient.getClient()
 let projectController: ProjectDataController
@@ -14,7 +18,6 @@ beforeAll(async () => {
   if (client instanceof AxiosFetchClient && IS_LOGGER_ENABLED) client.useLogger(AxiosSimpleLogger.instance())
 
   projectController = new ProjectDataController(client)
-
   const { components } = await projectController.getPaginatedProjects({
     page: 1,
     pageSize: 1,
@@ -36,5 +39,33 @@ describe('Get data by one project', () => {
     const { data } = await new IssuesDataController(client).getIssuesByProject(projectKey, { p: 1 })
 
     expect(Array.isArray(data)).toBe(true)
+  })
+
+  test('getting rules by project', async () => {
+    const controller = new RulesDataController(client)
+    const result = await controller.getRulesByProject(projectKey)
+
+    expect(Array.isArray(result)).toBe(true)
+  })
+
+  test('getting types by project', async () => {
+    const controller = new TypesDataController(client)
+    const result = await controller.getTypesByProject(projectKey)
+
+    expect(Array.isArray(result)).toBe(true)
+  })
+
+  test('getting severities by project', async () => {
+    const controller = new SeveritiesDataController(client)
+    const result = await controller.getSeveritiesByProject(projectKey)
+
+    expect(Array.isArray(result)).toBe(true)
+  })
+
+  test('getting files by project', async () => {
+    const controller = new FilesDataController(client)
+    const result = await controller.getFilesByProject(projectKey)
+
+    expect(Array.isArray(result)).toBe(true)
   })
 })
