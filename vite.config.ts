@@ -4,7 +4,7 @@ import { resolve } from 'path'
 import { dependencies } from './package.json'
 import { dependencies as raDependencies } from './node_modules/react-admin/package.json'
 
-const vendor = [ 'react', 'react-router-dom', 'react-dom' ]
+const vendor = [ 'react', 'react-router-dom', 'react-dom', 'react-router' ]
 
 function renderChunks(deps: Record<string, string>) {
   const chunks = {}
