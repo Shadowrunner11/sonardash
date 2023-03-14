@@ -1,0 +1,3 @@
+header.MuiPaper-root div[class*='RaLoadingIndicator'] {
+  display: none;
+}
