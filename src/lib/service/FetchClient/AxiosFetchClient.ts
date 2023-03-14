@@ -1,7 +1,6 @@
 import Axios, { AxiosInstance } from 'axios'
-import { setupCache, buildMemoryStorage } from 'axios-cache-interceptor/dev'
+import { setupCache } from 'axios-cache-interceptor'
 import { FetchClientOptions, IFetchClient, IHeaders, ILogger, PojoType } from '../../../types'
-import { exposeToGlobal } from '../../../utils'
 import { FetchClientWithHelpers } from './FetchClientWithHelpers'
 
 export class AxiosFetchClient extends FetchClientWithHelpers implements IFetchClient {
@@ -10,9 +9,6 @@ export class AxiosFetchClient extends FetchClientWithHelpers implements IFetchCl
     const { baseURL, headers, auth } = options
 
     super(options)
-
-    const storage = buildMemoryStorage()
-    exposeToGlobal(storage, 'axiosStorage')
 
     this.client = setupCache(
       Axios.create({

@@ -1,5 +1,5 @@
 import { encode } from 'base-64'
-import { FetchClientOptions, PojoType } from '../../../types'
+import { AuthParams, FetchClientOptions, PojoType } from '../../../types'
 import { stringifySearchParams } from '../../..//utils'
 
 export class FetchClientWithHelpers {
@@ -7,6 +7,10 @@ export class FetchClientWithHelpers {
 
   constructor(options: FetchClientOptions) {
     this.options = options
+  }
+
+  setAuthorization(authParams: Required<AuthParams>): void {
+    this.options.auth = authParams
   }
 
   protected getAbsoluteURL(url: string) {
@@ -21,7 +25,9 @@ export class FetchClientWithHelpers {
 
   protected get authHeader() {
     const { password = '', username } = this.options.auth ?? {}
-    const authInfo = encode(`${username}:${password}`)
+    let authInfo = encode(`${username}:${password}`)
+
+    if (!authInfo.includes('=')) authInfo = authInfo.substring(0, authInfo.length - 1)
 
     return `Basic ${authInfo}`
   }
