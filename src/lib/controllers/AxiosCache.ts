@@ -6,6 +6,8 @@ export class AxiosCache {
   constructor(axiosInstance: AxiosInstance, storage: AxiosStorage) {
     this.axiosInstance = axiosInstance
 
+    console.log(this.isAvailableCache)
+
     if (this.isAvailableCache)
       this.axiosInstance = setupCache(this.axiosInstance, {
         interpretHeader: false,
