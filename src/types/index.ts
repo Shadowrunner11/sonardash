@@ -12,7 +12,12 @@ export type IHeaders = Partial<{ [key in CommonRequestHeadersList]: string }> & 
 
 export interface IFetchClient {
   setAuthorization(authParams: AuthParams): void
-  get<T = unknown, K = PojoType>(url: string, params?: K, headers?: IHeaders): Promise<T>
+  get<T = unknown, K = PojoType>(
+    url: string,
+    params?: K,
+    headers?: IHeaders,
+    extraData?: PojoType
+  ): Promise<T>
   post<T = unknown, K = Record<string, unknown>>(url: string, body: K, headers?: IHeaders): Promise<T>
 }
 
@@ -44,7 +49,7 @@ export enum HTTP_METHODS {
   'OPTIONS' = 'OPTIONS',
 }
 
-export type PojoType = Record<string, string | number>
+export type PojoType = Record<string, string | number | unknown>
 
 export interface ILogger {
   logInfo(info: unknown): void
