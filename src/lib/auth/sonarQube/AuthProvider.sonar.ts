@@ -14,7 +14,7 @@ export class AuthSonarProvider implements AuthProvider {
   }
 
   private async validateToken(token: string, password = '') {
-    this.client.setAuthorization({ username: token, password })
+    this.client.setAuthorization({ username: token.trim(), password: password.trim() })
 
     const { valid } = await this.client.get<AuthValidationResponse>('/authentication/validate')
 

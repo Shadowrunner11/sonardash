@@ -17,7 +17,6 @@ export class AxiosFetchClient extends FetchClientWithHelpers implements IFetchCl
   }
 
   override setAuthorization(authParams: Required<AuthParams>): void {
-    console.log(authParams)
     this.client.defaults.auth = authParams
   }
 
