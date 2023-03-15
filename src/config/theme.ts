@@ -1,7 +1,9 @@
-import { createTheme } from '@mui/material'
+import type { PaletteMode } from '@mui/material'
 import { defaultTheme } from 'react-admin'
 
-export const darkTheme = createTheme({
+export const darkTheme = {
   ...defaultTheme,
-  palette: { mode: 'dark' },
-})
+  palette: {
+    mode: 'dark' as PaletteMode,
+  },
+}

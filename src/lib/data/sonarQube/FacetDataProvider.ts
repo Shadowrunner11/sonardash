@@ -14,7 +14,7 @@ import type {
 
 import { NotImplementeError } from '../../../lib/errors'
 import type { FacetsDataController } from '../../../lib/controllers'
-import type { FacetProperties } from 'src/types/sonarQube/issue'
+import type { FacetProperties } from '../../../types/sonarQube/issue'
 
 export class FacetDataProvider implements DataProvider {
   protected facetsDataController: FacetsDataController
@@ -26,7 +26,10 @@ export class FacetDataProvider implements DataProvider {
   async getList(resource: string, params: GetListParams): Promise<GetListResult> {
     const { filter } = params
 
-    const result = await this.facetsDataController.getFacetsByProject(filter.project, resource as FacetProperties)
+    const result = await this.facetsDataController.getFacetsByProject(
+      filter.project,
+      resource as FacetProperties
+    )
 
     const data = result.values.map(({ val, count }) => ({
       id: val,

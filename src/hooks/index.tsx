@@ -3,7 +3,6 @@ import { useState } from 'react'
 
 export const useLazyGetAllProjects = () => {
   const dataProvider = useDataProvider()
-  console.log(dataProvider)
 
   return async function () {
     const { total } = await dataProvider.getList('projects', {
