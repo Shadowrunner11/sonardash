@@ -9,7 +9,7 @@ export const initialAuthOptions: { auth?: Required<AuthParams> } = Object.freeze
     ? {
       auth: {
         password: '',
-        username: TOKEN,
+        username: localStorage.getItem('token') ?? TOKEN,
       },
     }
     : {}
