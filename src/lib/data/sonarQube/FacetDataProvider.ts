@@ -1,4 +1,4 @@
-import {
+import type {
   CreateParams,
   DataProvider,
   DeleteManyParams,
@@ -13,20 +13,22 @@ import {
 } from 'react-admin'
 
 import { NotImplementeError } from '../../../lib/errors'
-import { AuthorsDataController } from '../../../lib/controllers/AuthorsDataController'
+import type { FacetsDataController } from '../../../lib/controllers'
+import type { FacetProperties } from 'src/types/sonarQube/issue'
 
-export class AuthorsDataProvider implements DataProvider {
-  private authorsController: AuthorsDataController
-  constructor(authorsController: AuthorsDataController) {
-    this.authorsController = authorsController
+export class FacetDataProvider implements DataProvider {
+  protected facetsDataController: FacetsDataController
+
+  constructor(facetsController: FacetsDataController) {
+    this.facetsDataController = facetsController
   }
 
   async getList(resource: string, params: GetListParams): Promise<GetListResult> {
     const { filter } = params
 
-    const result = await this.authorsController.getAuthorsByProject(filter.project)
+    const result = await this.facetsDataController.getFacetsByProject(filter.project, resource as FacetProperties)
 
-    const data = result.map(({ val, count }) => ({
+    const data = result.values.map(({ val, count }) => ({
       id: val,
       val,
       count,
