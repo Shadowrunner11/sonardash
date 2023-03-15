@@ -1,5 +1,4 @@
 import Axios, { AxiosInstance } from 'axios'
-import { setupCache } from 'axios-cache-interceptor'
 import { AuthParams, FetchClientOptions, IFetchClient, IHeaders, ILogger, PojoType } from '../../../types'
 import { FetchClientWithHelpers } from './FetchClientWithHelpers'
 
@@ -10,16 +9,15 @@ export class AxiosFetchClient extends FetchClientWithHelpers implements IFetchCl
 
     super(options)
 
-    this.client = setupCache(
-      Axios.create({
-        baseURL,
-        headers,
-        auth,
-      })
-    )
+    this.client = Axios.create({
+      baseURL,
+      headers,
+      auth,
+    })
   }
 
   override setAuthorization(authParams: Required<AuthParams>): void {
+    console.log(authParams)
     this.client.defaults.auth = authParams
   }
 
