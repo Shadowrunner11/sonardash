@@ -28,7 +28,12 @@ export interface FetchClientOptions {
   auth?: Required<AuthParams>
 }
 
-export type CommonRequestHeadersList = 'Accept' | 'Content-Length' | 'User-Agent' | 'Content-Encoding' | 'Authorization'
+export type CommonRequestHeadersList =
+  | 'Accept'
+  | 'Content-Length'
+  | 'User-Agent'
+  | 'Content-Encoding'
+  | 'Authorization'
 
 export enum HTTP_METHODS {
   'GET' = 'GET',

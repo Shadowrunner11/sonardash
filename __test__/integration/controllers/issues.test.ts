@@ -1,18 +1,14 @@
 import { DefaultClient } from '../../tools/DefaultClient'
 import { AxiosFetchClient } from '../../../src/lib/service/FetchClient/AxiosFetchClient'
-import { IssuesDataController } from '../../../src/lib/controllers/IssuesDataController'
 import { AxiosSimpleLogger } from '../../../src/lib/service/Logger'
 import { IS_LOGGER_ENABLED } from '../../config'
-import { ProjectDataController } from '../../../src/lib/controllers/ProjectsDataControllers'
-import { AuthorsDataController } from '../../../src/lib/controllers/AuthorsDataController'
-import { RulesDataController } from '../../../src/lib/controllers/RulesDataController'
-import { TypesDataController } from '../../../src/lib/controllers/TypesController'
-import { SeveritiesDataController } from '../../../src/lib/controllers/SeveritiesController'
-import { FilesDataController } from '../../../src/lib/controllers/FilesController'
+import { FacetsDataController, ProjectDataController, IssuesDataController } from '../../../src/lib/controllers'
+import { FacetProperties } from '../../../src/types/sonarQube/issue'
 
 const client = DefaultClient.getClient()
 let projectController: ProjectDataController
 let projectKey: string
+let facetsController: FacetsDataController
 
 beforeAll(async () => {
   if (client instanceof AxiosFetchClient && IS_LOGGER_ENABLED) client.useLogger(AxiosSimpleLogger.instance())
@@ -26,11 +22,13 @@ beforeAll(async () => {
   const [ { key } ] = components
 
   projectKey = key
+
+  facetsController = new FacetsDataController(client)
 })
 
 describe('Get data by one project', () => {
   test('getting authors by project', async () => {
-    const result = await new AuthorsDataController(client).getAuthorsByProject(projectKey)
+    const result = await facetsController.getFacetsByProject(projectKey, FacetProperties.AUTHORS)
 
     expect(Array.isArray(result)).toBe(true)
   })
@@ -42,29 +40,25 @@ describe('Get data by one project', () => {
   })
 
   test('getting rules by project', async () => {
-    const controller = new RulesDataController(client)
-    const result = await controller.getRulesByProject(projectKey)
+    const result = await facetsController.getFacetsByProject(projectKey, FacetProperties.RULES)
 
-    expect(Array.isArray(result)).toBe(true)
+    expect(Array.isArray(result.values)).toBe(true)
   })
 
   test('getting types by project', async () => {
-    const controller = new TypesDataController(client)
-    const result = await controller.getTypesByProject(projectKey)
+    const result = await facetsController.getFacetsByProject(projectKey, FacetProperties.TYPES)
 
     expect(Array.isArray(result)).toBe(true)
   })
 
   test('getting severities by project', async () => {
-    const controller = new SeveritiesDataController(client)
-    const result = await controller.getSeveritiesByProject(projectKey)
+    const result = await facetsController.getFacetsByProject(projectKey, FacetProperties.SEVERITIES)
 
     expect(Array.isArray(result)).toBe(true)
   })
 
   test('getting files by project', async () => {
-    const controller = new FilesDataController(client)
-    const result = await controller.getFilesByProject(projectKey)
+    const result = await facetsController.getFacetsByProject(projectKey, FacetProperties.FILES)
 
     expect(Array.isArray(result)).toBe(true)
   })

@@ -37,16 +37,19 @@ export class AuthSonarProvider implements AuthProvider {
   }
 
   async checkAuth() {
-    const currentToken = localStorage?.getItem('token')
+    //if there is no valid token simply backend would not respond, but validation shpuld be performed so
+    // there is need to decouple this part
+    // it was coliding asincronusly when refreshing
+    if (localStorage.getItem('token')) return
 
-    if (!currentToken) return Promise.reject('Not Valid tokein')
+    // here shpuld be performed auth without re writing auth options in client
 
-    await this.validateToken(currentToken)
+    throw new Error('Not valid')
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   checkError(error: any) {
-    if (error?.status >= 500) return Promise.reject()
+    if (error?.status >= 500) return Promise.reject(error)
 
     return Promise.resolve()
   }
