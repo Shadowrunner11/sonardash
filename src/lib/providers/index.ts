@@ -13,7 +13,7 @@ import {
 import { AuthSonarProvider } from '../auth/sonarQube/AuthProvider.sonar'
 
 // TODO: controlar errores
-const client = FetchSonarClientFactory.getFetchClient()
+export const client = FetchSonarClientFactory.getFetchClient()
 
 const facetsProvider = new FacetDataProvider(new FacetsDataController(client))
 // TODO: what if facets are not here and in main provider

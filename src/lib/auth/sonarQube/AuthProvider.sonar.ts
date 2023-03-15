@@ -1,5 +1,6 @@
 import type { AuthProvider } from 'react-admin'
 import type { AuthParams, IFetchClient } from '../../../types'
+import { AxiosFetchClient } from '../../../lib/service/FetchClient/AxiosFetchClient'
 
 interface AuthValidationResponse {
   valid: boolean
@@ -16,7 +17,12 @@ export class AuthSonarProvider implements AuthProvider {
   private async validateToken(token: string, password = '') {
     this.client.setAuthorization({ username: token.trim(), password: password.trim() })
 
-    const { valid } = await this.client.get<AuthValidationResponse>('/authentication/validate')
+    const { valid } = await this.client.get<AuthValidationResponse>(
+      '/authentication/validate',
+      undefined,
+      undefined,
+      { id: 'login' }
+    )
 
     if (!valid) throw new Error('Not valid token')
 
@@ -31,9 +37,10 @@ export class AuthSonarProvider implements AuthProvider {
     return isValid
   }
 
-  logout() {
+  async logout() {
     localStorage?.removeItem('token')
-    return Promise.resolve()
+
+    if (this.client instanceof AxiosFetchClient) await this.client.storage.remove('login')
   }
 
   async checkAuth() {

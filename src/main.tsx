@@ -1,7 +1,7 @@
 import React, { lazy } from 'react'
 import ReactDOM from 'react-dom/client'
-
 import { DefaultLazy } from './components/DefaultLazy'
+import './style.css'
 
 // eslint-disable-next-line no-console
 addEventListener('error', console.trace)
