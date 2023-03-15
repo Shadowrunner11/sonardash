@@ -1,12 +1,12 @@
 import { useDataProvider } from 'react-admin'
-import { FacetProperties } from '../types/sonarQube/issue'
 import { useState } from 'react'
 
 export const useLazyGetAllProjects = () => {
   const dataProvider = useDataProvider()
+  console.log(dataProvider)
 
   return async function () {
-    const { total } = await dataProvider.getList(FacetProperties.PROJECTS, {
+    const { total } = await dataProvider.getList('projects', {
       filter: undefined,
       sort: { field: '', order: '' },
       pagination: {
@@ -15,7 +15,7 @@ export const useLazyGetAllProjects = () => {
       },
     })
 
-    const { data } = await dataProvider.getList(FacetProperties.PROJECTS, {
+    const { data } = await dataProvider.getList('projects', {
       filter: undefined,
       sort: { field: '', order: '' },
       pagination: {

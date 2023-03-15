@@ -18,7 +18,7 @@ export class SonarQubeDataProvider implements DataProvider {
   }
 
   getList(resource: string, params: GetListParams) {
-    return this.dataProviderAdapters[resource].getList('', params)
+    return this.dataProviderAdapters[resource].getList(resource, params)
   }
 
   getOne(resource: string, params: GetOneParams) {
