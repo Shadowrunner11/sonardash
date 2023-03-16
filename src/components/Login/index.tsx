@@ -9,7 +9,7 @@ import {
   Switch,
   FormControlLabel,
 } from '@mui/material'
-import { useState } from 'react'
+import { SyntheticEvent, useState } from 'react'
 import { useLogin } from 'react-admin'
 
 const BasicInputs = () => (
@@ -26,16 +26,16 @@ export const LoginCard = () => {
 
   const login = useLogin()
 
-  function onClickToken(event) {
+  function onClickToken(event: SyntheticEvent) {
     event.preventDefault()
     setIsTokenView((prev) => !prev)
   }
 
-  function onSubmitHandler(event) {
-    //console.log(event)
+  function onSubmitHandler(event: SyntheticEvent) {
     event.preventDefault()
+    if (!(event.target instanceof HTMLFormElement)) return
     const form = new FormData(event.target)
-    const loginData = {}
+    const loginData: Record<string, unknown> = {}
     form.forEach((value, key) => {
       loginData[key] = value
     })
