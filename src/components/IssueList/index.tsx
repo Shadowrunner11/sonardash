@@ -1,6 +1,7 @@
 import { Datagrid, List, TextField } from 'react-admin'
-import { Filter } from './Filter'
+import Filter from './Filter'
 import SideCard from '../../layout/SideCard'
+import { memo } from 'react'
 
 const propertiesProject = [
   { label: 'Key', source: 'id' },
@@ -18,7 +19,7 @@ const propertiesProject = [
 
 const Filters = () => <SideCard content={<Filter />} />
 
-export default function IssuesList() {
+export default memo(function IssuesList() {
   return (
     <List aside={<Filters />}>
       <Datagrid>
@@ -28,4 +29,4 @@ export default function IssuesList() {
       </Datagrid>
     </List>
   )
-}
+})

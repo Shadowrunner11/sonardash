@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { Box, Button, CircularProgress } from '@mui/material'
 import { MailOutline as MailIcon } from '@mui/icons-material'
 import { FilterList, FilterListItem } from 'react-admin'
@@ -8,7 +9,7 @@ export interface AuthorResource extends FacetValue {
   id: string
 }
 
-export function Filter() {
+const Filter = () => {
   const { data: authors, fetchNext, isLoading } = useCustomInfnite({ resource: FacetProperties.AUTHORS })
 
   return (
@@ -22,3 +23,5 @@ export function Filter() {
     </Box>
   )
 }
+
+export default memo(Filter)
