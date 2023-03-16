@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react'
 import { useDataProvider } from 'react-admin'
 import { Component, FacetProperties, FacetValue } from '../../../types/sonarQube/issue'
 import { keyBy } from '../../../utils'
-import { useIncrementState, useLazyGetAllProjects } from '../../../hooks'
+import { useLazyGetAllProjects } from '../../../hooks'
 
 export type ParsedComponent = Omit<Component, 'key'> & { id: string }
 
@@ -19,8 +19,9 @@ export function useCustomInfnite({ perPage = 10, page = 1, resource: facetResour
   const getAllProjects = useLazyGetAllProjects()
 
   const [ isLoading, setIsLoading ] = useState(true)
-  const [ currentPage, setCurrentPage ] = useIncrementState(page)
+  const [ currentPage, setCurrentPage ] = useState(page)
   const [ authors, setAuthors ] = useState<FacetValue[]>([])
+  const [ hasNextPage, setHasNextPage ] = useState(true)
 
   const cacheAuthors = useRef<Record<string, FacetValue>>({})
   const projects = useRef<ParsedComponent[]>([])
@@ -36,7 +37,11 @@ export function useCustomInfnite({ perPage = 10, page = 1, resource: facetResour
       projects.current.push(...projectsData)
     }
 
-    while (Object.values(cacheAuthors.current).length <= limit) {
+    const hasNotReachedTotal = projectStepper.current <= projects.current.length
+
+    if (!hasNotReachedTotal) setHasNextPage(false)
+
+    while (Object.values(cacheAuthors.current).length <= limit && hasNotReachedTotal) {
       const { data } = await dataProvider.getList(facetResource, {
         filter: {
           project: projects.current[projectStepper.current].id,
@@ -48,21 +53,25 @@ export function useCustomInfnite({ perPage = 10, page = 1, resource: facetResour
         sort: { field: '', order: '' },
       })
 
-      const prevCache = cacheAuthors.current
+      Object.assign(cacheAuthors.current, keyBy(data, 'val'))
 
-      cacheAuthors.current = { ...prevCache, ...keyBy(data, 'val') }
       projectStepper.current++
     }
 
-    setAuthors([ ...Object.values(cacheAuthors.current) ])
-    setCurrentPage()
+    setAuthors([ ...Object.values(cacheAuthors.current).slice(0, limit) ])
+    setCurrentPage((prev) => prev + 1)
     setIsLoading(false)
   }
 
   useEffect(() => {
-    // eslint-disable-next-line no-console
-    fetchNext().catch(console.error)
+    if (currentPage === page)
+      // eslint-disable-next-line no-console
+      fetchNext().catch(console.error)
+
+    return () => {
+      setCurrentPage(page)
+    }
   }, [])
 
-  return { data: authors, isLoading, fetchNext }
+  return { data: authors, isLoading, fetchNext, hasNextPage }
 }

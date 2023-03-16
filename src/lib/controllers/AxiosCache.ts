@@ -1,15 +1,14 @@
+import { setupAxiosCache } from '@config/axiosCache'
 import type { AxiosInstance } from 'axios'
-import { setupCache, AxiosStorage } from 'axios-cache-interceptor'
+import { AxiosStorage } from 'axios-cache-interceptor'
 
 export class AxiosCache {
   private axiosInstance: AxiosInstance
   constructor(axiosInstance: AxiosInstance, storage: AxiosStorage) {
     this.axiosInstance = axiosInstance
 
-    console.log(this.isAvailableCache)
-
     if (this.isAvailableCache)
-      this.axiosInstance = setupCache(this.axiosInstance, {
+      this.axiosInstance = setupAxiosCache(this.axiosInstance, {
         interpretHeader: false,
         methods: [ 'get' ],
         storage,
