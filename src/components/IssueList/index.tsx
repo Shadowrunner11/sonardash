@@ -4,16 +4,15 @@ import SideCard from '../../layout/SideCard'
 import { memo } from 'react'
 
 const propertiesProject = [
-  { label: 'Key', source: 'id' },
+  { label: 'Key', source: 'sonarKey' },
   { label: 'Proyecto', source: 'project' },
-  { label: 'Autores', source: 'author' },
-  { label: 'Observación', source: 'type' },
+  { label: 'Autores', source: 'developerEmail' },
+  { label: 'Observación', source: 'observation' },
   { label: 'Severidad', source: 'severity' },
   { label: 'Regla', source: 'rule' },
-  { label: 'Archivo', source: 'component' },
-  { label: 'Línea de código', source: 'line' },
-  { label: 'Día', source: 'date' },
-  { label: 'Hora', source: 'time' },
+  { label: 'Archivo', source: 'file' },
+  { label: 'Línea de código', source: 'startLine' },
+  { label: 'Fecha de creacion', source: 'issueCreatedAt' },
   { label: 'Lenguaje', source: 'language' },
 ]
 
