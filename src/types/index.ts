@@ -1,3 +1,6 @@
+import { GetListParams, GetListResult } from 'react-admin'
+import { PaginationInfo } from 'src/__generated__/graphql'
+
 export interface IAuth {
   getAuthAxios(): Record<string, { username: string; password: string }> | undefined
   cleanAuth(): void
@@ -54,4 +57,12 @@ export type PojoType = Record<string, string | number | unknown>
 export interface ILogger {
   logInfo(info: unknown): void
   logError(error: Error): void
+}
+
+export interface PaginatedResponse<T = unknown> {
+  data: T[]
+  pagination: Partial<PaginationInfo>
+}
+export interface GraphlService {
+  getList(params: GetListParams): Promise<GetListResult>
 }
