@@ -16,6 +16,7 @@ import { apolloClientConfig } from '@config/apollo'
 import { GraphQlDataProvider } from '../data/grapqhl/DataProvider'
 import { Issues } from '../graphql/services/Issues'
 import { Authors } from '../graphql/services/Authors'
+import { Projects } from '../graphql/services/Projects'
 
 // TODO: controlar errores
 export const client = FetchSonarClientFactory.getFetchClient()
@@ -50,4 +51,5 @@ export const apolloClient = new ApolloClient(apolloClientConfig)
 export const dataProvider = new GraphQlDataProvider({
   issues: new Issues(apolloClient),
   authors: new Authors(apolloClient),
+  projects: new Projects(apolloClient),
 })

@@ -3,6 +3,8 @@ import { Datagrid, List, TextField } from 'react-admin'
 const propertiesProject = [
   { label: 'key', source: 'id' },
   { label: 'nombre', source: 'name' },
+  { label: 'cualificador', source: 'qualifier' },
+  { label: 'visibilidad', source: 'visibility' },
 ]
 
 export default function ProjectList() {

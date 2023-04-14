@@ -10,10 +10,10 @@ import {
   UpdateManyParams,
   UpdateParams,
 } from 'react-admin'
-import { GraphlService } from '../../../types'
+import { GraphqlService } from '../../../types'
 
 export class GraphQlDataProvider implements DataProvider {
-  constructor(private dataProviderAdapters: Record<string, GraphlService>) {}
+  constructor(private dataProviderAdapters: Record<string, GraphqlService>) {}
 
   getList(resource: string, params: GetListParams) {
     return this.dataProviderAdapters[resource].getList(params)

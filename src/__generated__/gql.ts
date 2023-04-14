@@ -15,6 +15,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
 const documents = {
     "\n  query GetPaginatedAuthors($page: Int!, $limit: Float!) {\n    paginatedAuthors(page: $page, limit: $limit) {\n      pagination {\n        total\n      }\n      data {\n        _id\n        email\n      }\n    }\n  }\n": types.GetPaginatedAuthorsDocument,
     "\n  query GetPaginatedIssues($page: Int!, $filter: IssuesFilter, $limit: Int) {\n    paginatedIssues(page: $page, filter: $filter, limit: $limit) {\n      pagination {\n        total\n      }\n      data {\n        _id\n        sonarKey\n        project\n        status\n        developerEmail\n        file\n        issueCreatedAt\n        issueUpdatedAt\n        language\n        observation\n        project\n        rule\n        scope\n        severity\n        issueCreatedAt\n        startLine\n      }\n    }\n  }\n": types.GetPaginatedIssuesDocument,
+    "\n  query GetPaginatedProjects($page: Int!, $limit: Int) {\n    paginatedProjects(page: $page, limit: $limit) {\n      pagination {\n        total\n      }\n      data {\n        sonarKey\n        name\n        qualifier\n        isFavorite\n        visibility\n        needIssueSync\n        _id\n        createdAt\n        updatedAt\n      }\n    }\n  }\n": types.GetPaginatedProjectsDocument,
 };
 
 /**
@@ -39,6 +40,10 @@ export function gql(source: "\n  query GetPaginatedAuthors($page: Int!, $limit: 
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  query GetPaginatedIssues($page: Int!, $filter: IssuesFilter, $limit: Int) {\n    paginatedIssues(page: $page, filter: $filter, limit: $limit) {\n      pagination {\n        total\n      }\n      data {\n        _id\n        sonarKey\n        project\n        status\n        developerEmail\n        file\n        issueCreatedAt\n        issueUpdatedAt\n        language\n        observation\n        project\n        rule\n        scope\n        severity\n        issueCreatedAt\n        startLine\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetPaginatedIssues($page: Int!, $filter: IssuesFilter, $limit: Int) {\n    paginatedIssues(page: $page, filter: $filter, limit: $limit) {\n      pagination {\n        total\n      }\n      data {\n        _id\n        sonarKey\n        project\n        status\n        developerEmail\n        file\n        issueCreatedAt\n        issueUpdatedAt\n        language\n        observation\n        project\n        rule\n        scope\n        severity\n        issueCreatedAt\n        startLine\n      }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query GetPaginatedProjects($page: Int!, $limit: Int) {\n    paginatedProjects(page: $page, limit: $limit) {\n      pagination {\n        total\n      }\n      data {\n        sonarKey\n        name\n        qualifier\n        isFavorite\n        visibility\n        needIssueSync\n        _id\n        createdAt\n        updatedAt\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetPaginatedProjects($page: Int!, $limit: Int) {\n    paginatedProjects(page: $page, limit: $limit) {\n      pagination {\n        total\n      }\n      data {\n        sonarKey\n        name\n        qualifier\n        isFavorite\n        visibility\n        needIssueSync\n        _id\n        createdAt\n        updatedAt\n      }\n    }\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

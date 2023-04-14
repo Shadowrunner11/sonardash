@@ -1,11 +1,11 @@
 import { ApolloClient } from '@apollo/client'
 import type { GetListParams, GetListResult } from 'react-admin'
-import { GraphlService } from 'src/types'
+import { GraphqlService } from 'src/types'
 import { GetPaginatedIssues } from '../documents/issues.gql'
 import { cleanPojo } from '../../../utils'
 import { InputMaybe, IssuesFilter } from 'src/__generated__/graphql'
 
-export class Issues<T = unknown> implements GraphlService {
+export class Issues<T = unknown> implements GraphqlService {
   constructor(private client: ApolloClient<T>) {}
   async getList(params: GetListParams): Promise<GetListResult> {
     const {

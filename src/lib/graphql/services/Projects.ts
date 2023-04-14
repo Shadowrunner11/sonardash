@@ -1,23 +1,24 @@
 import { ApolloClient } from '@apollo/client'
 import type { GetListParams, GetListResult } from 'react-admin'
 import { GraphqlService } from 'src/types'
-import { GetPaginatedAuthors } from '../documents/authors.gql'
+import { GetPaginatedProjects } from '../documents/projects.gql'
 
-export class Authors<T = unknown> implements GraphqlService {
+export class Projects<T = unknown> implements GraphqlService {
   constructor(private client: ApolloClient<T>) {}
   async getList(params: GetListParams): Promise<GetListResult> {
     const {
       pagination: { page, perPage },
     } = params
+
     const {
       data: {
-        paginatedAuthors: {
+        paginatedProjects: {
           data,
           pagination: { total },
         },
       },
     } = await this.client.query({
-      query: GetPaginatedAuthors,
+      query: GetPaginatedProjects,
       variables: {
         page,
         limit: perPage,
