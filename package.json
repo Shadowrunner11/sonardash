@@ -10,7 +10,8 @@
     "prepare": "husky install",
     "lint": "eslint ./src/**/*",
     "prettier": "prettier --write ./src/**/*",
-    "test": "jest"
+    "test": "jest",
+    "graphql:generate": "graphql-codegen"
   },
   "dependencies": {
     "@apollo/client": "^3.7.10",

@@ -63,6 +63,6 @@ export interface PaginatedResponse<T = unknown> {
   data: T[]
   pagination: Partial<PaginationInfo>
 }
-export interface GraphlService {
+export interface GraphqlService {
   getList(params: GetListParams): Promise<GetListResult>
 }
