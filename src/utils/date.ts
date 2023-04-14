@@ -1,5 +1,5 @@
 export const getHourMinSec = (date = new Date()) =>
-  date.toLocaleDateString(navigator.language, {
+  date.toLocaleTimeString(navigator.language, {
     hour: 'numeric',
     minute: 'numeric',
     second: 'numeric',

@@ -18,6 +18,7 @@ import { Issues } from '../graphql/services/Issues'
 import { Authors } from '../graphql/services/Authors'
 import { Projects } from '../graphql/services/Projects'
 import { CoverageMetrics } from '../graphql/services/CoverageMetrics'
+import { DuplicatedMetrics } from '../graphql/services/DuplicatedMetrics'
 
 // TODO: controlar errores
 export const client = FetchSonarClientFactory.getFetchClient()
@@ -54,4 +55,5 @@ export const dataProvider = new GraphQlDataProvider({
   authors: new Authors(apolloClient),
   projects: new Projects(apolloClient),
   coverageMetrics: new CoverageMetrics(apolloClient),
+  duplicatedMetrics: new DuplicatedMetrics(apolloClient),
 })

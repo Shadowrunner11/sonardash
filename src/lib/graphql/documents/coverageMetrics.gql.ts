@@ -17,6 +17,7 @@ export const GetPaginatedCoverageMetrics = gql(/* GraphQL */ `
         qtyConditionsToCover
         qtyConditionsWithoutCover
         conditionsCoveragePercentage
+        createdAt
       }
     }
   }

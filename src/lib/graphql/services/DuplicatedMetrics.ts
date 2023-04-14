@@ -1,10 +1,10 @@
 import { ApolloClient } from '@apollo/client'
 import type { GetListParams, GetListResult } from 'react-admin'
 import { GraphqlService } from 'src/types'
-import { GetPaginatedCoverageMetrics } from '../documents/coverageMetrics.gql'
+import { GetPaginatedDuplicatedMetrics } from '../documents/duplicatedMetrics.gql'
 import { getTimeAndDate } from '../../../utils/date'
 
-export class CoverageMetrics<T = unknown> implements GraphqlService {
+export class DuplicatedMetrics<T = unknown> implements GraphqlService {
   constructor(private client: ApolloClient<T>) {}
   async getList(params: GetListParams): Promise<GetListResult> {
     const {
@@ -13,13 +13,13 @@ export class CoverageMetrics<T = unknown> implements GraphqlService {
 
     const {
       data: {
-        paginatedCoverageMetrics: {
+        paginatedDuplicatedMetrics: {
           data,
           pagination: { total },
         },
       },
     } = await this.client.query({
-      query: GetPaginatedCoverageMetrics,
+      query: GetPaginatedDuplicatedMetrics,
       variables: {
         page,
         limit: perPage,

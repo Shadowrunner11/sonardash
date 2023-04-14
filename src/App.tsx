@@ -8,6 +8,7 @@ const LazyIssueList = lazy(() => import('./components/IssueList'))
 const LazyProjectList = lazy(() => import('./components/ProjectsList'))
 const LazyAuthorsList = lazy(() => import('./components/AuthorsList'))
 const LazyCoverageMetricsList = lazy(() => import('./components/CoverageMetricsList'))
+const LazyDuplicatedMetricsList = lazy(() => import('./components/DuplicatedMetricsList'))
 
 function App() {
   return (
@@ -42,6 +43,14 @@ function App() {
           list={
             <DefaultLazy>
               <LazyCoverageMetricsList />
+            </DefaultLazy>
+          }
+        />
+        <Resource
+          name='duplicatedMetrics'
+          list={
+            <DefaultLazy>
+              <LazyDuplicatedMetricsList />
             </DefaultLazy>
           }
         />
