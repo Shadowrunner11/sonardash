@@ -12,6 +12,8 @@ const propertiesCoverageMetrics = [
   { label: 'Condiciones por Cubrir', source: 'qtyConditionsToCover' },
   { label: 'Condiciones sin Cobertura', source: 'qtyConditionsWithoutCover' },
   { label: '% Cobertura de Condiciones', source: 'conditionsCoveragePercentage' },
+  { label: 'Dia de Muestra', source: 'date' },
+  { label: 'Hora de Muestra', source: 'hour' },
 ]
 
 export default function CoverageMetricsList() {
