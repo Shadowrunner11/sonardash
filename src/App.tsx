@@ -6,6 +6,7 @@ import { BrowserRouter } from 'react-router-dom'
 
 const LazyIssueList = lazy(() => import('./components/IssueList'))
 const LazyProjectList = lazy(() => import('./components/ProjectsList'))
+const LazyAuthorsList = lazy(() => import('./components/AuthorsList'))
 
 function App() {
   return (
@@ -24,6 +25,14 @@ function App() {
           list={
             <DefaultLazy>
               <LazyProjectList />
+            </DefaultLazy>
+          }
+        />
+        <Resource
+          name='authors'
+          list={
+            <DefaultLazy>
+              <LazyAuthorsList />
             </DefaultLazy>
           }
         />
