@@ -36,7 +36,7 @@ export class DuplicatedMetrics<T = unknown> implements GraphqlService {
       return {
         id: _id,
         ...parsedRest,
-        observation: 'cobertura',
+        observation: 'Codigo Duplicado',
         file: 'proyecto',
         date,
         hour: time,
