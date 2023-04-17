@@ -9,7 +9,10 @@ export class Authors<T = unknown> implements GraphqlService {
   async getList(params: GetListParams): Promise<GetListResult> {
     const {
       pagination: { page, perPage },
+      filter,
     } = params
+
+    console.log(filter)
     const {
       data: {
         paginatedAuthors: {
