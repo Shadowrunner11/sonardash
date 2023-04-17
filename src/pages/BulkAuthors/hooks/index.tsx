@@ -14,6 +14,7 @@ type setParsedCSV = React.Dispatch<React.SetStateAction<ParseResult<Record<strin
 
 type UseUpserResult = [(event: SyntheticEvent) => Promise<void>, setParsedCSV, UpsertData]
 
+// TODO; add filter of correctd sanitized data and failed data
 export const useUpsertAuthorsFromCsv = (): UseUpserResult => {
   const [ parsedCSV, setParsedCSV ] = useState<ParseResult<Record<string, string>> | undefined>()
 
@@ -25,15 +26,17 @@ export const useUpsertAuthorsFromCsv = (): UseUpserResult => {
     async (event: SyntheticEvent) => {
       event.preventDefault()
 
-      const parsedData: AuthorInput[] | undefined = parsedCSV?.data.map((csvPojo) =>
-        Object.keys(csvPojo).reduce((acum, key) => {
-          const newKey = currentSelectFields[key]
+      const parsedData: AuthorInput[] | undefined = parsedCSV?.data
+        .map((csvPojo) =>
+          Object.keys(csvPojo).reduce((acum, key) => {
+            const newKey = currentSelectFields[key]
 
-          acum[newKey] = csvPojo[key]
+            acum[newKey] = csvPojo[key]
 
-          return acum
-        }, {} as AuthorInput)
-      )
+            return acum
+          }, {} as AuthorInput)
+        )
+        .filter(({ firstname }) => firstname)
 
       await update('authors', {
         data: parsedData,
