@@ -1,5 +1,5 @@
 import { forwardRef, memo, useMemo, useRef } from 'react'
-import { Box, Button, CircularProgress, Tooltip, Typography } from '@mui/material'
+import { Box, CircularProgress, Tooltip, Typography } from '@mui/material'
 import { MailOutline as MailIcon } from '@mui/icons-material'
 import { FilterList, FilterListItem, RaRecord, useInfiniteGetList } from 'react-admin'
 import { FacetProperties, FacetValue } from '../../types/sonarQube/issue'
@@ -51,7 +51,7 @@ const Filter = () => {
 
   const [ lastItemRef ] = useInfiniteScroll({
     loading: isLoading,
-    hasNextPage: hasNextPage ?? false,
+    hasNextPage: true,
     onLoadMore() {
       fetchNextPage()
     },
@@ -63,7 +63,14 @@ const Filter = () => {
       <FilterList label='Authors' icon={<MailIcon />}>
         <Box sx={{ overflowY: 'scroll' }} maxHeight={'50vh'}>
           {authors?.map(
-            ({ id, email }, index, array) => email && <FilterWithToolTipRef key={id} email={email} />
+            ({ id, email }, index, array) =>
+              email && (
+                <FilterWithToolTipRef
+                  key={id}
+                  email={email}
+                  {...(index + 1 === array.length ? { ref: lastItemRef } : {})}
+                />
+              )
           )}
         </Box>
       </FilterList>
