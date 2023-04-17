@@ -26,6 +26,7 @@ export type AuthorGraphql = {
   provider?: Maybe<Scalars['String']>;
   role?: Maybe<Scalars['String']>;
   squad?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
   tribe?: Maybe<Scalars['String']>;
 };
 
@@ -37,6 +38,7 @@ export type AuthorInput = {
   provider?: InputMaybe<Scalars['String']>;
   role?: InputMaybe<Scalars['String']>;
   squad?: InputMaybe<Scalars['String']>;
+  status?: InputMaybe<Scalars['String']>;
   tribe?: InputMaybe<Scalars['String']>;
 };
 
