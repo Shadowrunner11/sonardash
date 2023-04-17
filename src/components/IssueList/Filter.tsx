@@ -3,14 +3,14 @@ import { Box, Button, CircularProgress } from '@mui/material'
 import { MailOutline as MailIcon } from '@mui/icons-material'
 import { FilterList, FilterListItem, RaRecord, useInfiniteGetList } from 'react-admin'
 import { FacetProperties, FacetValue } from '../../types/sonarQube/issue'
-import { Author } from 'src/__generated__/graphql'
+import { AuthorGraphql } from 'src/__generated__/graphql'
 
 export interface AuthorResource extends FacetValue {
   id: string
 }
 
 const Filter = () => {
-  const { data, fetchNextPage, isLoading } = useInfiniteGetList<Partial<Author> & RaRecord>(
+  const { data, fetchNextPage, isLoading } = useInfiniteGetList<Partial<AuthorGraphql> & RaRecord>(
     FacetProperties.AUTHORS
   )
 
