@@ -1,5 +1,11 @@
 import { ApolloClient } from '@apollo/client'
-import type { GetListParams, GetListResult } from 'react-admin'
+import type {
+  GetListParams,
+  GetListResult,
+  UpdateManyParams,
+  UpdateManyResult,
+  UpdateParams,
+} from 'react-admin'
 import { GraphqlService } from 'src/types'
 import { GetPaginatedDuplicatedMetrics } from '../documents/duplicatedMetrics.gql'
 import { getTimeAndDate } from '../../../utils/date'
@@ -47,5 +53,13 @@ export class DuplicatedMetrics<T = unknown> implements GraphqlService {
       data: paserseData,
       total,
     }
+  }
+
+  update(params: UpdateParams<any>) {
+    return Promise.reject(params)
+  }
+
+  updateMany(params: UpdateManyParams<any>): Promise<UpdateManyResult<any>> {
+    return Promise.reject(params)
   }
 }

@@ -22,6 +22,7 @@ const queryClient =
     : undefined
 
 const LoginPage = () => <Responsive left={<LoginCard />} right={<img src={people} alt='' width={'100%'} />} />
+
 const AdminSonarQube = (props: Omit<AdminProps, 'dataProvider' | 'layout'>) => (
   <Admin
     loginPage={LoginPage}

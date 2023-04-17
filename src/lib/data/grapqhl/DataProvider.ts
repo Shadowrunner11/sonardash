@@ -9,11 +9,12 @@ import {
   GetOneParams,
   UpdateManyParams,
   UpdateParams,
+  UpdateResult,
 } from 'react-admin'
 import { GraphqlService } from '../../../types'
 
 export class GraphQlDataProvider implements DataProvider {
-  constructor(private dataProviderAdapters: Record<string, GraphqlService>) {}
+  constructor(protected dataProviderAdapters: Record<string, GraphqlService>) {}
 
   getList(resource: string, params: GetListParams) {
     return this.dataProviderAdapters[resource].getList(params)
@@ -31,12 +32,12 @@ export class GraphQlDataProvider implements DataProvider {
     return Promise.reject(resource + JSON.stringify(params))
   }
 
-  update(resource: string, params: UpdateParams) {
-    return Promise.reject(resource + JSON.stringify(params))
+  update(resource: string, params: UpdateParams): Promise<UpdateResult> {
+    return this.dataProviderAdapters[resource].update(params)
   }
 
   updateMany(resource: string, params: UpdateManyParams) {
-    return Promise.reject(resource + JSON.stringify(params))
+    return this.dataProviderAdapters[resource].updateMany(params)
   }
 
   create(resource: string, params: CreateParams) {

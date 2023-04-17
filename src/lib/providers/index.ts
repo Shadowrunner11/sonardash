@@ -19,6 +19,7 @@ import { Authors } from '../graphql/services/Authors'
 import { Projects } from '../graphql/services/Projects'
 import { CoverageMetrics } from '../graphql/services/CoverageMetrics'
 import { DuplicatedMetrics } from '../graphql/services/DuplicatedMetrics'
+import { DataProvider, UpdateParams } from 'react-admin'
 
 // TODO: controlar errores
 export const client = FetchSonarClientFactory.getFetchClient()
@@ -50,7 +51,15 @@ export const legacyDataProvider = new SonarQubeDataProvider({
 
 export const apolloClient = new ApolloClient(apolloClientConfig)
 
-export const dataProvider = new GraphQlDataProvider({
+export const dataProvider: DataProvider = new (class extends GraphQlDataProvider {
+  override async update(resource: string, params: UpdateParams): Promise<any> {
+    if (resource === 'bulkauthors') {
+      return params.data
+    }
+
+    return super.update(resource, params)
+  }
+})({
   issues: new Issues(apolloClient),
   authors: new Authors(apolloClient),
   projects: new Projects(apolloClient),

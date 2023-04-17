@@ -1,8 +1,9 @@
-import { Resource } from 'react-admin'
+import { CustomRoutes, Resource } from 'react-admin'
 import AdminSonarQube from './layout/AdminSonarQube'
 import { lazy } from 'react'
 import { DefaultLazy } from './components/DefaultLazy'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, Route } from 'react-router-dom'
+import BulkAuthors from './pages/BulkAuthors'
 
 const LazyIssueList = lazy(() => import('./components/IssueList'))
 const LazyProjectList = lazy(() => import('./components/ProjectsList'))
@@ -54,6 +55,9 @@ function App() {
             </DefaultLazy>
           }
         />
+        <CustomRoutes>
+          <Route path='/bulkAuthors' element={<BulkAuthors />} />
+        </CustomRoutes>
       </AdminSonarQube>
     </BrowserRouter>
   )

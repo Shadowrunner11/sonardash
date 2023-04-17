@@ -1,5 +1,12 @@
-import { GetListParams, GetListResult } from 'react-admin'
-import { PaginationInfo } from 'src/__generated__/graphql'
+import type {
+  GetListParams,
+  GetListResult,
+  UpdateManyParams,
+  UpdateManyResult,
+  UpdateParams,
+  UpdateResult,
+} from 'react-admin'
+import type { PaginationInfo } from 'src/__generated__/graphql'
 
 export interface IAuth {
   getAuthAxios(): Record<string, { username: string; password: string }> | undefined
@@ -65,4 +72,6 @@ export interface PaginatedResponse<T = unknown> {
 }
 export interface GraphqlService {
   getList(params: GetListParams): Promise<GetListResult>
+  update(params: UpdateParams): Promise<UpdateResult>
+  updateMany(params: UpdateManyParams): Promise<UpdateManyResult>
 }
