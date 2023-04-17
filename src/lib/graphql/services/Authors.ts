@@ -1,11 +1,5 @@
 import { ApolloClient } from '@apollo/client'
-import type {
-  GetListParams,
-  GetListResult,
-  UpdateManyParams,
-  UpdateManyResult,
-  UpdateParams,
-} from 'react-admin'
+import type { GetListParams, GetListResult, UpdateManyParams, UpdateParams } from 'react-admin'
 import { GraphqlService } from 'src/types'
 import { GetPaginatedAuthors, UpsertAuthors } from '../documents/authors.gql'
 import { AuthorInput } from 'src/__generated__/graphql'
@@ -50,7 +44,6 @@ export class Authors<T = unknown> implements GraphqlService {
     return Promise.reject(params)
   }
 
-  // TODO: update apollo cache
   async updateMany(params: UpdateManyParams<AuthorInput[]>) {
     await this.client.mutate({
       mutation: UpsertAuthors,
@@ -58,6 +51,8 @@ export class Authors<T = unknown> implements GraphqlService {
         input: { authors: params.data.filter(Boolean) },
       },
     })
+
+    this.client.cache.evict({ fieldName: 'paginatedAuthors' })
 
     return {
       data: params.data.map(({ email }) => email),
