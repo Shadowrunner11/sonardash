@@ -25,32 +25,35 @@ const FilterWithToolTipRef = forwardRef<HTMLLIElement | null, FilterWithToolTipP
         label={
           isWrapped ? (
             <Tooltip title={email}>
+              <Box ref={ref}>
+                <Typography ref={textRef} component='p' sx={{ textOverflow: 'ellipsis', overflow: 'hidden' }}>
+                  {email}
+                </Typography>
+              </Box>
+            </Tooltip>
+          ) : (
+            <Box ref={ref}>
               <Typography ref={textRef} component='p' sx={{ textOverflow: 'ellipsis', overflow: 'hidden' }}>
                 {email}
               </Typography>
-            </Tooltip>
-          ) : (
-            <Typography ref={textRef} component='p' sx={{ textOverflow: 'ellipsis', overflow: 'hidden' }}>
-              {email}
-            </Typography>
+            </Box>
           )
         }
         value={{ author: email }}
-        ref={ref}
       />
     )
   }
 )
 
 const Filter = () => {
-  const { data, fetchNextPage, isLoading, hasNextPage } = useInfiniteGetList<Partial<Author> & RaRecord>(
-    FacetProperties.AUTHORS
-  )
+  const { data, fetchNextPage, isFetchingNextPage, hasNextPage } = useInfiniteGetList<
+    Partial<Author> & RaRecord
+  >(FacetProperties.AUTHORS)
 
   const authors = useMemo(() => data?.pages.flatMap(({ data }) => data), [ data?.pages ])
 
   const [ lastItemRef ] = useInfiniteScroll({
-    loading: isLoading,
+    loading: isFetchingNextPage,
     hasNextPage: true,
     onLoadMore() {
       fetchNextPage()
@@ -74,7 +77,7 @@ const Filter = () => {
           )}
         </Box>
       </FilterList>
-      {isLoading && <CircularProgress />}
+      {isFetchingNextPage && <CircularProgress />}
     </Box>
   )
 }
