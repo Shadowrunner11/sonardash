@@ -47,6 +47,13 @@ export type AuthorUpsertRespose = {
   success: Scalars['Boolean'];
 };
 
+export type AuthorsFilters = {
+  _ids?: InputMaybe<FilterItemsString>;
+  createdAtFilter?: InputMaybe<TimeFilter>;
+  email?: InputMaybe<FilterItemString>;
+  updatedAtFilter?: InputMaybe<TimeFilter>;
+};
+
 export type AuthorsInput = {
   authors: Array<AuthorInput>;
 };
@@ -82,6 +89,7 @@ export type Duplication = {
 
 export type FilterItemString = {
   isExclusion?: InputMaybe<Scalars['Boolean']>;
+  isPartialMatch?: Scalars['Boolean'];
   value: Scalars['String'];
 };
 
@@ -179,13 +187,19 @@ export type PaginationInfo = {
 export type Project = {
   __typename?: 'Project';
   _id: Scalars['ID'];
+  appName: Scalars['String'];
   createdAt: Scalars['DateTime'];
   isFavorite?: Maybe<Scalars['Boolean']>;
   name: Scalars['String'];
   needIssueSync?: Maybe<Scalars['Boolean']>;
   qualifier: Scalars['String'];
+  qualiteGate: Scalars['String'];
+  qualiteProfile: Scalars['String'];
+  relatedProjects?: Maybe<Array<Maybe<Scalars['String']>>>;
   sonarKey: Scalars['String'];
+  squad: Scalars['String'];
   tags: Array<Maybe<Scalars['String']>>;
+  tribe: Scalars['String'];
   updatedAt: Scalars['DateTime'];
   visibility: Scalars['String'];
 };
@@ -208,6 +222,7 @@ export type QueryIssueArgs = {
 
 
 export type QueryPaginatedAuthorsArgs = {
+  filter?: InputMaybe<AuthorsFilters>;
   limit?: Scalars['Float'];
   page: Scalars['Int'];
 };
@@ -250,6 +265,7 @@ export type TimeFilter = {
 export type GetPaginatedAuthorsQueryVariables = Exact<{
   page: Scalars['Int'];
   limit: Scalars['Float'];
+  filter?: InputMaybe<AuthorsFilters>;
 }>;
 
 
@@ -296,7 +312,7 @@ export type GetPaginatedProjectsQueryVariables = Exact<{
 export type GetPaginatedProjectsQuery = { __typename?: 'Query', paginatedProjects: { __typename?: 'PaginatedProjects', pagination: { __typename?: 'PaginationInfo', total: number }, data: Array<{ __typename?: 'Project', sonarKey: string, name: string, qualifier: string, isFavorite?: boolean | null, visibility: string, needIssueSync?: boolean | null, _id: string, createdAt: any, updatedAt: any } | null> } };
 
 
-export const GetPaginatedAuthorsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetPaginatedAuthors"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"page"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"paginatedAuthors"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"page"},"value":{"kind":"Variable","name":{"kind":"Name","value":"page"}}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pagination"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"total"}}]}},{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]}}]} as unknown as DocumentNode<GetPaginatedAuthorsQuery, GetPaginatedAuthorsQueryVariables>;
+export const GetPaginatedAuthorsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetPaginatedAuthors"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"page"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"AuthorsFilters"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"paginatedAuthors"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"page"},"value":{"kind":"Variable","name":{"kind":"Name","value":"page"}}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pagination"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"total"}}]}},{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]}}]} as unknown as DocumentNode<GetPaginatedAuthorsQuery, GetPaginatedAuthorsQueryVariables>;
 export const UpserAuthorsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpserAuthors"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AuthorsInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"upsertAuthor"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"success"}}]}}]}}]} as unknown as DocumentNode<UpserAuthorsMutation, UpserAuthorsMutationVariables>;
 export const GetPaginatedCoverageMetricsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetPaginatedCoverageMetrics"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"page"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"paginatedCoverageMetrics"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"page"},"value":{"kind":"Variable","name":{"kind":"Name","value":"page"}}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pagination"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"total"}}]}},{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"sonarKey"}},{"kind":"Field","name":{"kind":"Name","value":"totalCoveragePercent"}},{"kind":"Field","name":{"kind":"Name","value":"linesToCover"}},{"kind":"Field","name":{"kind":"Name","value":"linesNoCoverage"}},{"kind":"Field","name":{"kind":"Name","value":"linesCoveragePercent"}},{"kind":"Field","name":{"kind":"Name","value":"qtyConditionsToCover"}},{"kind":"Field","name":{"kind":"Name","value":"qtyConditionsWithoutCover"}},{"kind":"Field","name":{"kind":"Name","value":"conditionsCoveragePercentage"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]}}]} as unknown as DocumentNode<GetPaginatedCoverageMetricsQuery, GetPaginatedCoverageMetricsQueryVariables>;
 export const GetPaginatedDuplicatedMetricsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetPaginatedDuplicatedMetrics"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"page"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"paginatedDuplicatedMetrics"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"page"},"value":{"kind":"Variable","name":{"kind":"Name","value":"page"}}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pagination"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"total"}}]}},{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalDensityPercent"}},{"kind":"Field","name":{"kind":"Name","value":"duplicatedLines"}},{"kind":"Field","name":{"kind":"Name","value":"duplicatedBlocks"}},{"kind":"Field","name":{"kind":"Name","value":"duplicatedFiles"}},{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"sonarKey"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]}}]} as unknown as DocumentNode<GetPaginatedDuplicatedMetricsQuery, GetPaginatedDuplicatedMetricsQueryVariables>;

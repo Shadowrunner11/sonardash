@@ -13,7 +13,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n  query GetPaginatedAuthors($page: Int!, $limit: Float!) {\n    paginatedAuthors(page: $page, limit: $limit) {\n      pagination {\n        total\n      }\n      data {\n        _id\n        email\n      }\n    }\n  }\n": types.GetPaginatedAuthorsDocument,
+    "\n  query GetPaginatedAuthors($page: Int!, $limit: Float!, $filter: AuthorsFilters) {\n    paginatedAuthors(page: $page, limit: $limit, filter: $filter) {\n      pagination {\n        total\n      }\n      data {\n        _id\n        email\n      }\n    }\n  }\n": types.GetPaginatedAuthorsDocument,
     "\n  mutation UpserAuthors($input: AuthorsInput!) {\n    upsertAuthor(input: $input) {\n      success\n    }\n  }\n": types.UpserAuthorsDocument,
     "\n  query GetPaginatedCoverageMetrics($page: Int!, $limit: Int!) {\n    paginatedCoverageMetrics(page: $page, limit: $limit) {\n      pagination {\n        total\n      }\n      data {\n        _id\n        name\n        sonarKey\n        totalCoveragePercent\n        linesToCover\n        linesNoCoverage\n        linesCoveragePercent\n        qtyConditionsToCover\n        qtyConditionsWithoutCover\n        conditionsCoveragePercentage\n        createdAt\n      }\n    }\n  }\n": types.GetPaginatedCoverageMetricsDocument,
     "\n  query GetPaginatedDuplicatedMetrics($page: Int!, $limit: Int!) {\n    paginatedDuplicatedMetrics(page: $page, limit: $limit) {\n      pagination {\n        total\n      }\n      data {\n        totalDensityPercent\n        duplicatedLines\n        duplicatedBlocks\n        duplicatedFiles\n        _id\n        name\n        sonarKey\n        createdAt\n        updatedAt\n      }\n    }\n  }\n": types.GetPaginatedDuplicatedMetricsDocument,
@@ -38,7 +38,7 @@ export function gql(source: string): unknown;
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  query GetPaginatedAuthors($page: Int!, $limit: Float!) {\n    paginatedAuthors(page: $page, limit: $limit) {\n      pagination {\n        total\n      }\n      data {\n        _id\n        email\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetPaginatedAuthors($page: Int!, $limit: Float!) {\n    paginatedAuthors(page: $page, limit: $limit) {\n      pagination {\n        total\n      }\n      data {\n        _id\n        email\n      }\n    }\n  }\n"];
+export function gql(source: "\n  query GetPaginatedAuthors($page: Int!, $limit: Float!, $filter: AuthorsFilters) {\n    paginatedAuthors(page: $page, limit: $limit, filter: $filter) {\n      pagination {\n        total\n      }\n      data {\n        _id\n        email\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetPaginatedAuthors($page: Int!, $limit: Float!, $filter: AuthorsFilters) {\n    paginatedAuthors(page: $page, limit: $limit, filter: $filter) {\n      pagination {\n        total\n      }\n      data {\n        _id\n        email\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

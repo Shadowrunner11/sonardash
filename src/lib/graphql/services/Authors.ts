@@ -9,7 +9,9 @@ export class Authors<T = unknown> implements GraphqlService {
   async getList(params: GetListParams): Promise<GetListResult> {
     const {
       pagination: { page, perPage },
+      filter,
     } = params
+
     const {
       data: {
         paginatedAuthors: {
@@ -22,6 +24,16 @@ export class Authors<T = unknown> implements GraphqlService {
       variables: {
         page,
         limit: perPage,
+        filter: {
+          ...(filter.email
+            ? {
+              email: {
+                value: filter.email,
+                isPartialMatch: true,
+              },
+            }
+            : {}),
+        },
       },
     })
 
