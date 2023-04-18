@@ -13,3 +13,11 @@ export const GetPaginatedAuthors = gql(/* GraphQL */ `
     }
   }
 `)
+
+export const UpsertAuthors = gql(/* GraphQL */ `
+  mutation UpserAuthors($input: AuthorsInput!) {
+    upsertAuthor(input: $input) {
+      success
+    }
+  }
+`)

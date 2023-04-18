@@ -3,8 +3,8 @@ import { Box, CircularProgress, Tooltip, Typography } from '@mui/material'
 import { MailOutline as MailIcon } from '@mui/icons-material'
 import { FilterList, FilterListItem, RaRecord, useInfiniteGetList } from 'react-admin'
 import { FacetProperties, FacetValue } from '../../types/sonarQube/issue'
-import { Author } from 'src/__generated__/graphql'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
+import { AuthorGraphql } from 'src/__generated__/graphql'
 
 export interface AuthorResource extends FacetValue {
   id: string
@@ -46,15 +46,18 @@ const FilterWithToolTipRef = forwardRef<HTMLLIElement | null, FilterWithToolTipP
 )
 
 const Filter = () => {
-  const { data, fetchNextPage, isFetchingNextPage, hasNextPage } = useInfiniteGetList<
-    Partial<Author> & RaRecord
-  >(FacetProperties.AUTHORS)
+  const {
+    data,
+    fetchNextPage,
+    isFetchingNextPage,
+    hasNextPage = false,
+  } = useInfiniteGetList<Partial<AuthorGraphql> & RaRecord>(FacetProperties.AUTHORS)
 
   const authors = useMemo(() => data?.pages.flatMap(({ data }) => data), [ data?.pages ])
 
   const [ lastItemRef ] = useInfiniteScroll({
     loading: isFetchingNextPage,
-    hasNextPage: true,
+    hasNextPage,
     onLoadMore() {
       fetchNextPage()
     },
