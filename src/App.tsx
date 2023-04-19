@@ -4,6 +4,11 @@ import { lazy } from 'react'
 import { DefaultLazy } from './components/DefaultLazy'
 import { BrowserRouter, Route } from 'react-router-dom'
 import BulkAuthors from './pages/BulkAuthors'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
+import ContentCopyIcon from '@mui/icons-material/ContentCopy'
+import SourceIcon from '@mui/icons-material/Source'
+import CodeIcon from '@mui/icons-material/Code'
 
 const LazyIssueList = lazy(() => import('./components/IssueList'))
 const LazyProjectList = lazy(() => import('./components/ProjectsList'))
@@ -16,6 +21,7 @@ function App() {
     <BrowserRouter>
       <AdminSonarQube>
         <Resource
+          icon={ErrorOutlineIcon}
           name='issues'
           list={
             <DefaultLazy>
@@ -24,6 +30,7 @@ function App() {
           }
         />
         <Resource
+          icon={SourceIcon}
           name='projects'
           list={
             <DefaultLazy>
@@ -32,6 +39,7 @@ function App() {
           }
         />
         <Resource
+          icon={AccountCircleIcon}
           name='authors'
           list={
             <DefaultLazy>
@@ -40,6 +48,7 @@ function App() {
           }
         />
         <Resource
+          icon={CodeIcon}
           name='coverageMetrics'
           list={
             <DefaultLazy>
@@ -48,6 +57,7 @@ function App() {
           }
         />
         <Resource
+          icon={ContentCopyIcon}
           name='duplicatedMetrics'
           list={
             <DefaultLazy>
@@ -56,7 +66,7 @@ function App() {
           }
         />
         <CustomRoutes>
-          <Route path='/bulkAuthors' element={<BulkAuthors />} />
+          <Route path='/sincro' element={<BulkAuthors />} />
         </CustomRoutes>
       </AdminSonarQube>
     </BrowserRouter>
