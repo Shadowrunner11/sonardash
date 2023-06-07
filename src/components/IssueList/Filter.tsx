@@ -3,8 +3,8 @@ import { Box, CircularProgress, Tooltip, Typography } from '@mui/material'
 import { MailOutline as MailIcon } from '@mui/icons-material'
 import { FilterList, FilterListItem, RaRecord, useInfiniteGetList } from 'react-admin'
 import { FacetProperties, FacetValue } from '../../types/sonarQube/issue'
-import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { AuthorGraphql } from 'src/__generated__/graphql'
+import { Virtuoso, ItemContent } from 'react-virtuoso'
 
 export interface AuthorResource extends FacetValue {
   id: string
@@ -25,14 +25,14 @@ const FilterWithToolTipRef = forwardRef<HTMLLIElement | null, FilterWithToolTipP
         label={
           isWrapped ? (
             <Tooltip title={email}>
-              <Box ref={ref}>
+              <Box ref={ref} sx={{ margin: 0 }}>
                 <Typography ref={textRef} component='p' sx={{ textOverflow: 'ellipsis', overflow: 'hidden' }}>
                   {email}
                 </Typography>
               </Box>
             </Tooltip>
           ) : (
-            <Box ref={ref}>
+            <Box ref={ref} sx={{ margin: 0 }}>
               <Typography ref={textRef} component='p' sx={{ textOverflow: 'ellipsis', overflow: 'hidden' }}>
                 {email}
               </Typography>
@@ -45,42 +45,38 @@ const FilterWithToolTipRef = forwardRef<HTMLLIElement | null, FilterWithToolTipP
   }
 )
 
+const FilterVirtuosoItem: ItemContent<Partial<AuthorGraphql> & RaRecord, unknown> = (_, data) => (
+  <FilterWithToolTipRef key={data.id} email={data.email ?? ''} />
+)
+
 const Filter = () => {
-  const {
-    data,
-    fetchNextPage,
-    isFetchingNextPage,
-    hasNextPage = false,
-  } = useInfiniteGetList<Partial<AuthorGraphql> & RaRecord>(FacetProperties.AUTHORS)
+  const { data, fetchNextPage, isFetchingNextPage } = useInfiniteGetList<Partial<AuthorGraphql> & RaRecord>(
+    FacetProperties.AUTHORS
+  )
 
-  const authors = useMemo(() => data?.pages.flatMap(({ data }) => data), [ data?.pages ])
-
-  const [ lastItemRef ] = useInfiniteScroll({
-    loading: isFetchingNextPage,
-    hasNextPage,
-    onLoadMore() {
-      fetchNextPage()
-    },
-    rootMargin: '0px 0px 400px 0px',
-  })
+  const authors = useMemo(
+    () => data?.pages.flatMap(({ data }) => data).filter(({ email }) => email) ?? [],
+    [ data?.pages ]
+  )
 
   return (
     <Box>
       <FilterList label='Authors' icon={<MailIcon />}>
-        <Box sx={{ overflowY: 'scroll' }} maxHeight={'50vh'}>
-          {authors?.map(
-            ({ id, email }, index, array) =>
-              email && (
-                <FilterWithToolTipRef
-                  key={id}
-                  email={email}
-                  {...(index + 1 === array.length ? { ref: lastItemRef } : {})}
-                />
-              )
-          )}
-        </Box>
+        <Virtuoso
+          data={authors}
+          endReached={() => fetchNextPage()}
+          itemContent={FilterVirtuosoItem}
+          style={{ overflowY: 'scroll', height: '50vh' }}
+        />
       </FilterList>
-      {isFetchingNextPage && <CircularProgress />}
+      {isFetchingNextPage && (
+        <CircularProgress
+          sx={{
+            marginX: 'auto',
+            marginY: 4,
+          }}
+        />
+      )}
     </Box>
   )
 }
